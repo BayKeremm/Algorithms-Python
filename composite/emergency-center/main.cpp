@@ -2,6 +2,7 @@
 #include <vector>
 #include <memory>
 #include "sensor.h"
+#include "component.h"
 #include "motionsensor.h"
 
 
@@ -19,12 +20,12 @@ int main(){
     //sensor->panic();
     //std::cout << std::endl;
     //std::cout << std::endl;
-    std::vector<std::unique_ptr<Sensor>> sensors;
-    sensors.push_back(std::make_unique<Sensor>(12,5)); 
-    sensors.push_back(std::make_unique<MotionSensor>(12,5,"manyak cocuk")); 
-    for(const auto& sensor : sensors){
-        sensor->test();
-        std::cout << std::endl;
-        std::cout << std::endl;
+    std::vector<std::unique_ptr<Component>> components;
+    components.push_back(std::make_unique<Sensor>(12,5)); 
+    components.push_back(std::make_unique<MotionSensor>(12,5,"manyak cocuk")); 
+    for(const auto& component : components){
+        component->test();
+        std::cout << component->id() << std::endl;
+        std::cout <<component->generation()<< std::endl;
     }
 }

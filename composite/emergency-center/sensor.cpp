@@ -1,18 +1,10 @@
 #include "sensor.h"
-#include<iostream> 
-
-Sensor::Sensor(int id, int gen) : ID{id}, gen{gen}
+Sensor::Sensor(int id, int gen) : Component(id, gen)
 {
       std::cout << "Sensor constructor" << std::endl;
 
 }
 
-int Sensor::generation(){
-    return gen; 
-}
-int Sensor::id(){
-    return ID; 
-}
 void Sensor::panic(){
     std::cout << "Panic Sensor" << std::endl;
 }

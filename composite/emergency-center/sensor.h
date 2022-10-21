@@ -1,18 +1,15 @@
 #ifndef SENSOR_H_
 #define SENSOR_H_
+#include "component.h"
+#include<iostream> 
 
-class Sensor
+class Sensor : public Component
 {
-    protected:
-        int  ID;
-        int gen;
     public:
         Sensor(int id, int gen);
         Sensor() = default;
-        virtual ~Sensor() = default;
-        int generation();
-        int id();
-        void test();
+        ~Sensor() = default;
+        void test() override;
         virtual void panic();
 };
 #endif
