@@ -3,15 +3,17 @@
 #include <iostream>
 class Component
 {
-    protected:
-        int  ID;
-        int gen;
+    private:
+        int  ID{0};
+        std::string vendor{"no-vendor"};
     public:
-        Component(int id, int gen);
+        Component(int id, std::string vendor);
+        Component(int id);
         Component()= default;
         virtual ~Component() = default;
-        int generation();
-        int id();
+        std::string getVendor();
+        int getID();
+        int setID(int newID);
         virtual void test() = 0;
 };
 #endif

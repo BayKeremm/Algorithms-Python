@@ -1,17 +1,17 @@
 #ifndef MOTION_H_
 #define MOTION_H_
 #include<string> 
+#include<memory> 
 
 #include "sensor.h"
 class MotionSensor : public Sensor {
-    using Sensor::Sensor;
-    
+    private:
+        int activationRange;
     public:
-    MotionSensor(int id, int gen, std::string vendor);
+    MotionSensor(int id, std::string vendor, int activationRange);
     ~MotionSensor() = default;
+    //std::ostream& operator<<(std::ostream&, std::unique_ptr<Sensor> & component) override; //
     void panic() override ;
-
-    protected:
-        std::string vendor{"kerem"};
+    int getActivationRange();
 };
 #endif
