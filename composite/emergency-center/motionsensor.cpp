@@ -15,17 +15,31 @@ void MotionSensor::panic(){
 int MotionSensor::getActivationRange(){
     return activationRange;
 }
-//std::ostream& MotionSensor::operator<<(std::unique_ptr<Sensor> & sensor){
-    //// problem of dynamic cast
+std::ostream& operator<<(std::ostream & os, std::unique_ptr<MotionSensor> & sensor){
+    // problem of dynamic cast
     //MotionSensor * tmp = dynamic_cast<MotionSensor*>(sensor.get());
     //std::unique_ptr<MotionSensor> derivedPointer;
     //if(tmp != nullptr){
         //sensor.release();
         //derivedPointer.reset(tmp);
     //}
-    //std::os <<"ID:" <<  derivedPointer->getID() << std::endl;
-    //std::cout <<"Vendor:" <<  derivedPointer->getVendor() << std::endl;
-    //std::cout <<"Active:" <<  derivedPointer->getActive() << std::endl;
-    //std::cout <<"Activation Range:" << derivedPointer->getActivationRange() << std::endl;
-    //return "End";
-//}
+    os <<"ID:" <<  sensor->getID() << std::endl;
+    os <<"Vendor:" <<  sensor->getVendor() << std::endl;
+    os <<"Active:" <<  sensor->getActive() << std::endl;
+    os <<"Activation Range:" << sensor->getActivationRange() << std::endl;
+    return os;
+}
+std::ostream& operator<<(std::ostream & os, MotionSensor & sensor){
+    // problem of dynamic cast
+    //MotionSensor * tmp = dynamic_cast<MotionSensor*>(sensor.get());
+    //std::unique_ptr<MotionSensor> derivedPointer;
+    //if(tmp != nullptr){
+        //sensor.release();
+        //derivedPointer.reset(tmp);
+    //}
+    os <<"ID:" <<  sensor.getID() << std::endl;
+    os <<"Vendor:" <<  sensor.getVendor() << std::endl;
+    os <<"Active:" <<  sensor.getActive() << std::endl;
+    os <<"Activation Range:" << sensor.getActivationRange() << std::endl;
+    return os;
+}

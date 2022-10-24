@@ -11,12 +11,15 @@ class Sensor : public Component
         Sensor(int id, std::string vendor);
         Sensor() = default;
         ~Sensor() = default;
-        void test() override; //
-        bool getActive();   //
+        bool setActive();
+        bool unsetActive();
+        void test() override; 
+        bool getActive();   
         virtual void panic() = 0;
-        //virtual std::ostream& operator<<(std::ostream& os, std::unique_ptr<Sensor> & component)=0; //
-        //void operator++(); //
-        //void operator--(); //
+        virtual Sensor & operator++(); 
+        virtual Sensor & operator++(int); 
+        virtual Sensor & operator--(); 
+        virtual Sensor & operator--(int); 
 
 };
 #endif

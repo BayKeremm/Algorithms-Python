@@ -10,3 +10,19 @@ GasSensor::GasSensor(int id, std::string vendor) :
 void GasSensor::panic(){
     std::cout << "Panic Gas sensor" << std::endl;
 }
+
+std::ostream& operator<<(std::ostream & os, std::unique_ptr<GasSensor> & sensor){
+    // TODO: Add other custom prints for gas sensor
+    os <<"ID:" <<  sensor->getID() << std::endl;
+    os <<"Vendor:" <<  sensor->getVendor() << std::endl;
+    os <<"Active:" <<  sensor->getActive() << std::endl;
+    return os;
+}
+
+std::ostream& operator<<(std::ostream & os, GasSensor & sensor){
+    // TODO: Add other custom prints for gas sensor
+    os <<"ID:" <<  sensor.getID() << std::endl;
+    os <<"Vendor:" <<  sensor.getVendor() << std::endl;
+    os <<"Active:" <<  sensor.getActive() << std::endl;
+    return os;
+}
