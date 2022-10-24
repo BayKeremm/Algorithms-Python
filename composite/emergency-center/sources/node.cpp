@@ -58,3 +58,12 @@ void Node::test(){
       }
       std::cout << "Node test" << std::endl;
 }
+void Node::printOverview(){
+      std::cout << "inside node: " << getName() << std::endl;
+      for(auto & sensor : sensors){
+            std::cout<< sensor << std::endl;
+      }
+      //for(auto & node : nodes){
+            //node->test();
+      //}
+}

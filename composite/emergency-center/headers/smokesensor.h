@@ -10,7 +10,8 @@ class SmokeSensor : public Sensor {
     SmokeSensor();
     ~SmokeSensor() = default;
     void panic() override ;
+    std::string getAdditionalInfo() override;
 };
-std::ostream& operator<<(std::ostream& os, std::unique_ptr<SmokeSensor> & sensor); //
-std::ostream& operator<<(std::ostream& os, SmokeSensor & sensor); //
+//std::ostream& operator<<(std::ostream& os, std::unique_ptr<SmokeSensor> & sensor); //
+//std::ostream& operator<<(std::ostream& os, SmokeSensor & sensor); //
 #endif

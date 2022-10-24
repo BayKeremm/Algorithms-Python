@@ -16,10 +16,13 @@ class Sensor : public Component
         void test() override; 
         bool getActive();   
         virtual void panic() = 0;
-        virtual Sensor & operator++(); 
-        virtual Sensor & operator++(int); 
-        virtual Sensor & operator--(); 
-        virtual Sensor & operator--(int); 
+        Sensor& operator++(); 
+        Sensor& operator++(int); 
+        Sensor& operator--(); 
+        Sensor& operator--(int); 
+        virtual std::string getAdditionalInfo() = 0;
+        friend std::ostream& operator<<(std::ostream& os, std::unique_ptr<Sensor> & sensor); //
+        friend std::ostream& operator<<(std::ostream& os, Sensor & sensor); //
 
 };
 #endif

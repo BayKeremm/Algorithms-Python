@@ -13,7 +13,8 @@ class MotionSensor : public Sensor {
         ~MotionSensor() = default;
         void panic() override ;
         int getActivationRange();
+        std::string getAdditionalInfo() override;
 };
-std::ostream& operator<<(std::ostream& os, std::unique_ptr<MotionSensor> & sensor); //
-std::ostream& operator<<(std::ostream& os, MotionSensor & sensor); //
+//std::ostream& operator<<(std::ostream& os, std::unique_ptr<MotionSensor> & sensor); //
+//std::ostream& operator<<(std::ostream& os, MotionSensor & sensor); //
 #endif

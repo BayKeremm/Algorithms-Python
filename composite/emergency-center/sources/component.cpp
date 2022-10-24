@@ -1,5 +1,5 @@
 #include "component.h"
-Component::Component(std::string vendor) {
+Component::Component(std::string vendor) : vendor{vendor}{
 
     uuid = Uuid();
     std::cout << "Component constructor with vendor " << std::endl;

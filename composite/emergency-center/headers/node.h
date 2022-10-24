@@ -24,5 +24,6 @@ class Node : public Component
         std::string getName();
         std::string setName(std::string newName);
         void test() override;
+        void printOverview();
 };
 #endif
