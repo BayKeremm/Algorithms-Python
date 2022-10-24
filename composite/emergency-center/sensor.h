@@ -8,8 +8,8 @@ class Sensor : public Component
     private:
         bool active{false};
     public:
-        Sensor(int id, std::string vendor);
-        Sensor() = default;
+        Sensor(std::string vendor);
+        Sensor();
         ~Sensor() = default;
         bool setActive();
         bool unsetActive();

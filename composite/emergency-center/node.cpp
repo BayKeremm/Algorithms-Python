@@ -1,10 +1,12 @@
 #include "node.h"
-#include "sensor.h"
 
-Node::Node(int id, std::string name) : Component(id), name{name}
+Node::Node( std::string name) : Component(), name{name}
 {
       std::cout << "Node constructor" << std::endl;
 
+}
+Node::Node() : Component(){
+      std::cout << "Node constructor default " << std::endl;
 }
 std::string Node::getName(){
       return name;
@@ -21,10 +23,10 @@ void Node::addChild(std::unique_ptr<Node> node){
       nodes.push_back(std::move(node));
 }
 
-bool Node::removeSensor(int id){
+bool Node::removeSensor(Uuid id){
       bool removed{false};
       for(auto & sensor : sensors){
-            if(sensor->getID() == id){
+            if(sensor->getUuid() == id){
                  sensors.erase(
                   std::remove(sensors.begin(), sensors.end(),sensor)
                  ,sensors.end()); 
@@ -34,10 +36,10 @@ bool Node::removeSensor(int id){
       return removed;
 
 }
-bool Node::removeNode(int id){
+bool Node::removeNode(Uuid id){
       bool removed{false};
       for(auto & node : nodes){
-            if(node->getID() == id){
+            if(node->getUuid() == id){
                  nodes.erase(
                   std::remove(nodes.begin(), nodes.end(),node)
                  ,nodes.end()); 

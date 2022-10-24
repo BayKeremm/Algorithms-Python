@@ -1,7 +1,12 @@
 #include "sensor.h"
-Sensor::Sensor(int id, std::string vendor) : Component(id, vendor)
+Sensor::Sensor(std::string vendor) : Component(vendor)
 {
       std::cout << "Sensor constructor" << std::endl;
+
+}
+Sensor::Sensor() : Component()
+{
+      std::cout << "Sensor constructor default" << std::endl;
 
 }
 

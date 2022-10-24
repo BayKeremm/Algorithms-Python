@@ -7,7 +7,8 @@ class GasSensor : public Sensor {
     private:
         int activationRange;
     public:
-    GasSensor(int id, std::string vendor);
+    GasSensor(std::string vendor);
+    GasSensor();
     ~GasSensor() = default;
     void panic() override ;
 };

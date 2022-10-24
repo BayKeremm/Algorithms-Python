@@ -3,22 +3,24 @@
 #include<string>
 #include "component.h"
 #include "sensor.h"
+#include "uuid.h"
 #include <vector>
 
 class Node : public Component
 {
     private:
-        std::string name;
+        std::string name{"missing name"};
         std::vector<std::unique_ptr<Sensor>> sensors;
         std::vector<std::unique_ptr<Node>> nodes;
 
     public:
-        Node(int id, std::string name);
+        Node( std::string name);
+        Node();
         ~Node() = default; // gives error saying this has no definition
         void addChild(std::unique_ptr<Sensor> sensor);
         void addChild(std::unique_ptr<Node> node);
-        bool removeSensor(int id);
-        bool removeNode(int id);
+        bool removeSensor(Uuid id);
+        bool removeNode(Uuid id);
         std::string getName();
         std::string setName(std::string newName);
         void test() override;

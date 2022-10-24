@@ -1,19 +1,20 @@
 #ifndef Component_H_
 #define Component_H_
 #include <iostream>
+#include "uuid.h"
 class Component
 {
     private:
-        int  ID{0};
+        Uuid uuid;
         std::string vendor{"no-vendor"};
     public:
-        Component(int id, std::string vendor);
-        Component(int id);
-        Component()= default;
+        Component(std::string vendor);
+        Component();
         virtual ~Component() = default;
         std::string getVendor();
-        int getID();
-        int setID(int newID);
+
+        Uuid getUuid();
+
         virtual void test() = 0;
 };
 #endif

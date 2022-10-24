@@ -6,9 +6,10 @@
 #include "sensor.h"
 class MotionSensor : public Sensor {
     private:
-        int activationRange;
+        int activationRange{0};
     public:
-        MotionSensor(int id, std::string vendor, int activationRange);
+        MotionSensor(std::string vendor, int activationRange);
+        MotionSensor();
         ~MotionSensor() = default;
         void panic() override ;
         int getActivationRange();

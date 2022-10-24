@@ -1,10 +1,15 @@
 #include "motionsensor.h"
 #include <iostream>
 
-MotionSensor::MotionSensor(int id, std::string vendor, int actRange) :
-    Sensor{id,vendor}, activationRange{actRange} 
+MotionSensor::MotionSensor(std::string vendor, int actRange) :
+    Sensor(vendor), activationRange{actRange} 
 {
       std::cout << " MotionSensor constructor" << std::endl;
+}
+MotionSensor::MotionSensor() :
+    Sensor() 
+{
+      std::cout << " MotionSensor constructor default" << std::endl;
 }
 
 
@@ -23,7 +28,7 @@ std::ostream& operator<<(std::ostream & os, std::unique_ptr<MotionSensor> & sens
         //sensor.release();
         //derivedPointer.reset(tmp);
     //}
-    os <<"ID:" <<  sensor->getID() << std::endl;
+    os <<"ID:" <<  sensor->getUuid() << std::endl;
     os <<"Vendor:" <<  sensor->getVendor() << std::endl;
     os <<"Active:" <<  sensor->getActive() << std::endl;
     os <<"Activation Range:" << sensor->getActivationRange() << std::endl;
@@ -37,7 +42,7 @@ std::ostream& operator<<(std::ostream & os, MotionSensor & sensor){
         //sensor.release();
         //derivedPointer.reset(tmp);
     //}
-    os <<"ID:" <<  sensor.getID() << std::endl;
+    os <<"ID:" <<  sensor.getUuid() << std::endl;
     os <<"Vendor:" <<  sensor.getVendor() << std::endl;
     os <<"Active:" <<  sensor.getActive() << std::endl;
     os <<"Activation Range:" << sensor.getActivationRange() << std::endl;

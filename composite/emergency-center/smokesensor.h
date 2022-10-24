@@ -6,7 +6,8 @@
 class SmokeSensor : public Sensor {
 
     public:
-    SmokeSensor(int id, std::string vendor);
+    SmokeSensor(std::string vendor);
+    SmokeSensor();
     ~SmokeSensor() = default;
     void panic() override ;
 };
