@@ -49,6 +49,7 @@ bool Node::removeNode(Uuid id){
       return removed;
 }
 void Node::test(){
+      std::cout << "inside node: " << getName() << std::endl;
       for(auto & sensor : sensors){
             sensor->panic();
       }

@@ -21,17 +21,20 @@ int main(){
     auto smoke = std::make_unique<SmokeSensor>("imec");
     auto uuid = smoke->getUuid();
     auto building = std::make_unique<Node>("Group T");
-    //auto lab = std::make_unique<Node>("Electronics lab");
-    //lab->addChild(std::make_unique<GasSensor>("imec"));
+    auto lab = std::make_unique<Node>("Electronics lab");
+    lab->addChild(std::make_unique<GasSensor>("imec"));
     building->addChild(std::move(smoke));
     building->test();
     std::cout << "------------------"<<std::endl;
     building->removeSensor(uuid);
     building->test();
-    //building->addChild(std::make_unique<MotionSensor>("imec",3));
-    //building->addChild(std::make_unique<SmokeSensor>("Sony"));
-    ////building->addChild(std::make_unique<Node>(3,"Chemistry lab"));
-    //building->addChild(std::move(lab));
+    std::cout << "------------------"<<std::endl;
+    building->addChild(std::make_unique<MotionSensor>("imec",3));
+    building->addChild(std::make_unique<SmokeSensor>("Sony"));
+    //building->addChild(std::make_unique<Node>(3,"Chemistry lab"));
+    building->addChild(std::move(lab));
+    building->test();
+    std::cout << "------------------"<<std::endl;
     /*
                                 building
                                 *    *   *
