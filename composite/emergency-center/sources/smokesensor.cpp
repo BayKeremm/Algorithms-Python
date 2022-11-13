@@ -1,4 +1,4 @@
-#include "smokesensor.h"
+#include "../headers/smokesensor.h"
 #include <iostream>
 
 SmokeSensor::SmokeSensor( std::string vendor) :
@@ -17,7 +17,7 @@ void SmokeSensor::panic(){
     std::cout << "Panic smoke sensor" << std::endl;
 }
 std::string SmokeSensor::getAdditionalInfo(){
-    return "Smoke Sensor:\nno additional info";
+    return "SmokeSensor(";
 }
 
 //std::ostream& operator<<(std::ostream & os, std::unique_ptr<SmokeSensor> & sensor){

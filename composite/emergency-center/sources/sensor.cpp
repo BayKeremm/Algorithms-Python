@@ -1,5 +1,5 @@
-#include "sensor.h"
-Sensor::Sensor(std::string vendor) : Component(vendor)
+#include "../headers/sensor.h"
+Sensor::Sensor(std::string vendor) : Component(vendor, false)
 {
       std::cout << "Sensor constructor" << std::endl;
 
@@ -12,7 +12,7 @@ Sensor::Sensor() : Component()
 
 void Sensor::test(){
     panic();
-    std::cout << "test function of sensor class" << std::endl;
+    //std::cout << "test function of sensor class" << std::endl;
 }
 
 
@@ -27,37 +27,29 @@ bool Sensor::unsetActive(){
     active = false;
     return active;
 }
-std::ostream& operator<<(std::ostream & os, std::unique_ptr<Sensor> & sensor){
-    os << sensor->getAdditionalInfo() << std::endl;
-    os <<"ID:" <<  sensor->getUuid() << std::endl;
-    os <<"Vendor:" <<  sensor->getVendor() << std::endl;
-    os <<"Active:" <<  sensor->getActive() << std::endl;
+std::ostream& operator<<(std::ostream & os, std::shared_ptr<Sensor> & sensor){
+    os << sensor->getAdditionalInfo();
+    os <<", ID:" <<  sensor->getUuid();
+    os <<", Vendor:" <<  sensor->getVendor();
+    os <<", Active:" <<  sensor->getActive() << ")"<< std::endl;
     return os;
 }
-std::ostream& operator<<(std::ostream & os, Sensor & sensor){
-    os << sensor.getAdditionalInfo()<< std::endl;
-    os <<"ID:" <<  sensor.getUuid() << std::endl;
-    os <<"Vendor:" <<  sensor.getVendor() << std::endl;
-    os <<"Active:" <<  sensor.getActive() << std::endl;
-    return os;
-}
+//std::ostream& operator<<(std::ostream & os, Sensor & sensor){
+    //os << sensor.getAdditionalInfo();
+    //os <<", ID:" <<  sensor.getUuid();
+    //os <<", Vendor:" <<  sensor.getVendor();
+    //os <<", Active:" <<  sensor.getActive() << ")"<< std::endl;
+    //return os;
+//}
+
 
  // OPERATOR OVERLOADS
-
-Sensor&  Sensor::operator++(){
+void  Sensor::operator++(){
     this->setActive();
-    return *this;
 }
-Sensor& Sensor::operator--(){
+void  Sensor::operator--(){
     this->unsetActive();
-    return *this;
 }
-// sensor++ and ++sensor behave the same.
-Sensor& Sensor::operator++(int){
-    this->setActive();
-    return *this;
-}
-Sensor& Sensor::operator--(int){
-    this->unsetActive();
-    return *this;
+std::string Sensor::getSensorInfo(){
+    return getAdditionalInfo() + ", Active:" + std::to_string(getActive());
 }

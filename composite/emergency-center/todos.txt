@@ -1,0 +1,5 @@
+how to sort the sensors?
+problem of << operator on derived classes.
+problem of ++ operator on smart pointers
+unique pointer increment and decrement operators.
+printing formatting.

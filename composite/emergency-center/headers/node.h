@@ -10,20 +10,24 @@ class Node : public Component
 {
     private:
         std::string name{"missing name"};
-        std::vector<std::unique_ptr<Sensor>> sensors;
-        std::vector<std::unique_ptr<Node>> nodes;
+        std::vector<std::shared_ptr<Component>> components;
 
     public:
+        void printOverview();
         Node( std::string name);
         Node();
         ~Node() = default; // gives error saying this has no definition
-        void addChild(std::unique_ptr<Sensor> sensor);
-        void addChild(std::unique_ptr<Node> node);
-        bool removeSensor(Uuid id);
-        bool removeNode(Uuid id);
+
+        void addChild(std::shared_ptr<Component> component);
+        bool removeComponent(Uuid id);
+
         std::string getName();
         std::string setName(std::string newName);
+
+        void  operator++()override; 
+        void  operator--()override; 
+
         void test() override;
-        void printOverview();
+        std::string getSensorInfo() override;
 };
 #endif

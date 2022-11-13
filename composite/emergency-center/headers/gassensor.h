@@ -11,9 +11,12 @@ class GasSensor : public Sensor {
     GasSensor(std::string vendor,int minLevel, int maxLevel);
     GasSensor();
     ~GasSensor() = default;
+
     int getMinLevel();
     int getMaxLevel();
+
     void panic() override ;
+
     std::string getAdditionalInfo() override;
 };
 //std::ostream& operator<<(std::ostream& os, std::unique_ptr<GasSensor> & sensor); //

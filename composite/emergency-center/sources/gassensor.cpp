@@ -1,4 +1,4 @@
-#include "gassensor.h"
+#include "../headers/gassensor.h"
 #include <iostream>
 
 GasSensor::GasSensor( std::string vendor, int minLevel, int maxLevel) :
@@ -21,7 +21,7 @@ void GasSensor::panic(){
     std::cout << "Panic Gas sensor" << std::endl;
 }
 std::string GasSensor::getAdditionalInfo(){
-    return "Gas Sensor:\nMin - Max Level: " + std::to_string(minLevel) +" to "+  std::to_string(maxLevel);
+    return "GasSensor(MinLevel:" + std::to_string(minLevel) +", MaxLevel: "+  std::to_string(maxLevel);
 }
 
 //std::ostream& operator<<(std::ostream & os, std::unique_ptr<GasSensor> & sensor){

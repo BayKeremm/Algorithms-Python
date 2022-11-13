@@ -1,4 +1,4 @@
-#include "motionsensor.h"
+#include "../headers/motionsensor.h"
 #include <iostream>
 
 MotionSensor::MotionSensor(std::string vendor, int actRange) :
@@ -21,7 +21,7 @@ int MotionSensor::getActivationRange(){
     return activationRange;
 }
 std::string MotionSensor::getAdditionalInfo(){
-    return "Motion Sensor:\nActivation Range: " + std::to_string(activationRange);
+    return "Motion Sensor(Activation Range:" + std::to_string(activationRange);
 }
 //std::ostream& operator<<(std::ostream & os, std::unique_ptr<MotionSensor> & sensor){
     //// problem of dynamic cast

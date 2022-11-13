@@ -1,6 +1,6 @@
-#include "node.h"
+#include "../headers/node.h"
 
-Node::Node( std::string name) : Component(), name{name}
+Node::Node( std::string name) : Component("no-vendor",true), name{name}
 {
       std::cout << "Node constructor" << std::endl;
 
@@ -16,54 +16,48 @@ std::string Node::setName(std::string newName){
       return name;
 }
 
-void Node::addChild(std::unique_ptr<Sensor> sensor){
-      sensors.push_back(std::move(sensor));
-}
-void Node::addChild(std::unique_ptr<Node> node){
-      nodes.push_back(std::move(node));
+void Node::addChild(std::shared_ptr<Component> component){
+      components.push_back(component);
 }
 
-bool Node::removeSensor(Uuid id){
+bool Node::removeComponent(Uuid id){
       bool removed{false};
-      for(auto & sensor : sensors){
-            if(sensor->getUuid() == id){
-                 sensors.erase(
-                  std::remove(sensors.begin(), sensors.end(),sensor)
-                 ,sensors.end()); 
-                 removed = true;
-            }
-      }
-      return removed;
-
-}
-bool Node::removeNode(Uuid id){
-      bool removed{false};
-      for(auto & node : nodes){
-            if(node->getUuid() == id){
-                 nodes.erase(
-                  std::remove(nodes.begin(), nodes.end(),node)
-                 ,nodes.end()); 
+      for(auto & component : components){
+            if(component->getUuid() == id){
+                 components.erase(
+                  std::remove(components.begin(), components.end(), component)
+                 ,components.end()); 
                  removed = true;
             }
       }
       return removed;
 }
+
 void Node::test(){
-      std::cout << "inside node: " << getName() << std::endl;
-      for(auto & sensor : sensors){
-            sensor->panic();
+      std::cout << "inside component: " << getName() << std::endl;
+      for(auto & component : components){
+            component->test();
       }
-      for(auto & node : nodes){
-            node->test();
-      }
-      std::cout << "Node test" << std::endl;
+      std::cout << "end component: " << getName() << std::endl;
 }
 void Node::printOverview(){
-      std::cout << "inside node: " << getName() << std::endl;
-      for(auto & sensor : sensors){
-            std::cout<< sensor << std::endl;
+      std::cout << "inside component: " << getName() << std::endl;
+      for(auto & sensor : components){
+            if(!sensor->isComposite()){
+                  std::cout<< sensor << std::endl;
+            }
       }
-      //for(auto & node : nodes){
-            //node->test();
-      //}
+}
+void  Node::operator++(){
+      for(auto  & component: components){
+            ++(*component);
+      }
+}
+void  Node::operator--(){
+      for(auto  & component: components){
+            --(*component);
+      }
+}
+std::string  Node::getSensorInfo(){
+      return "";
 }
