@@ -4,6 +4,7 @@ class Node
 {
 public:
     Node(int x, int y, int w);
+    Node(int x, int y, int w, Node *parent);
     int getX();
     int getY();
     int getW();
@@ -12,6 +13,8 @@ public:
     Node *getParent();
     void setVisited();
     bool getVisited();
+    void setDone();
+    bool getDone();
     bool operator<(const Node &b) const;
     bool operator==(const Node &b) const;
 
@@ -21,5 +24,6 @@ private:
     int w;
     Node *parent;
     bool visited;
+    bool done;
 };
 #endif

@@ -1,5 +1,6 @@
 #include "dijkstra.h"
 #include <iostream>
+#include <cmath>
 
 Dijkstra::Dijkstra(std::vector<Node> nds, int rs, int cls) : nodes{nds}, rows{rs},
                                                              columns{cls}
@@ -24,148 +25,72 @@ bool Dijkstra::relax(Node &successor, Node &old)
     }
 }
 
-std::vector<Node> Dijkstra::findPath(int sX, int sY, int dX, int dY)
+std::vector<Node *> Dijkstra::findPath(int sX, int sY, int dX, int dY)
 {
-    std::vector<Node> explored;
-    std::priority_queue<Node> frontier;
+    std::vector<Node *> solution;
+    std::priority_queue<Node *> frontier;
     // find the root node
     // 1D list goes row by row
     // so index = rows*sX + sY
     int index = rows * sX + sY;
-    std::cout << index << '\n';
     nodes[index].setW(0);
     nodes[index].setParent(nullptr);
     // push the root node to the pq
-    frontier.push(nodes[index]);
+    frontier.push(&nodes[index]);
 
     while (!frontier.empty())
     {
-        std::cout << "inside while" << '\n';
-        Node currNode = frontier.top();
+        auto currNode = frontier.top();
         frontier.pop();
-        explored.push_back(currNode);
-        index = rows * currNode.getX() + currNode.getY();
+        currNode->setDone();
 
-        std::cout << currNode.getX() << currNode.getY() << '\n'
-                  << '\n';
-
-        if (index == rows * dX + sY)
+        if (currNode->getX() == dX && currNode->getY() == dY)
         {
             // found
             std::cout << "found breaking" << '\n';
-            break;
+            auto n = currNode;
+            while (true)
+            {
+                std::cout << "insdie found while" << '\n';
+                solution.push_back(n);
+                std::cout << n->getX() << n->getY() << '\n'
+                          << '\n';
+                n = n->getParent();
+                if (n == nullptr)
+                {
+                    break;
+                }
+            }
+            std::cout << "finished breaking" << '\n';
+            return solution;
         }
         // for each successor
-        // down
-        if (validIndex(index + rows))
+        for (int i = std::max(currNode->getX() - 1, 0); i <= std::min(currNode->getX() + 1, columns - 1); i++)
         {
-            std::cout << "going down" << '\n';
-            if (std::count(explored.begin(), explored.end(), nodes[index + rows]) == 0)
+            for (int j = std::max(currNode->getY() - 1, 0); j <= std::min(currNode->getY() + 1, rows - 1); j++)
             {
-                int w = currNode.getW() + 1 + nodes[index + rows].getW();
-                nodes[index + rows].setW(w);
+                int index = i + columns * j;
+                int w = currNode->getW() + 1 + nodes[index].getW();
 
-                std::cout << "new node is not in explored, going down" << '\n';
-
-                if (!nodes[index + rows].getVisited())
+                if (nodes[index].getDone())
                 {
-                    std::cout << "not visited push frontier, down" << '\n';
-                    nodes[index + rows].setVisited();
-                    frontier.push(nodes[index + rows]);
-                    nodes[index + rows].setParent(&currNode);
+                    continue;
                 }
-                else if (w < nodes[index + rows].getW())
+                else if (!nodes[index].getVisited())
                 {
-                    std::cout << "explored, but relaxing down" << '\n';
-                    nodes[index + rows].setW(w);
-                    nodes[index + rows].setParent(&currNode);
+                    std::cout << "-----------------" << '\n';
+                    nodes[index].setVisited();
+                    std::cout << index % rows << "," << index / columns << '\n';
+                    frontier.emplace(new Node(index % rows, index / columns, w, currNode));
+                }
+                else if (w < nodes[index].getW())
+                {
+                    std::cout << "ooooo" << '\n';
+                    nodes[index].setW(w);
+                    nodes[index].setParent(currNode);
                 }
             }
         }
-        // up
-        if (validIndex(index - rows))
-        {
-            std::cout << "going up" << '\n';
-            if (std::count(explored.begin(), explored.end(), nodes[index - rows]) == 0)
-            {
-                int w = currNode.getW() + 1 + nodes[index - rows].getW();
-                nodes[index - rows].setW(w);
-
-                std::cout << "new node is not in explored, going up" << '\n';
-
-                if (!nodes[index - rows].getVisited())
-                {
-                    std::cout << "not visited push frontier, up" << '\n';
-                    nodes[index - rows].setVisited();
-                    frontier.push(nodes[index - rows]);
-                    nodes[index - rows].setParent(&currNode);
-                }
-                else if (w < nodes[index - rows].getW())
-                {
-                    std::cout << "explored, but relaxing up" << '\n';
-                    nodes[index - rows].setW(w);
-                    nodes[index - rows].setParent(&currNode);
-                }
-            }
-        }
-        // left
-        if (validIndex(index - 1))
-        {
-            std::cout << "going left" << '\n';
-            if (std::count(explored.begin(), explored.end(), nodes[index - 1]) == 0)
-            {
-                int w = currNode.getW() + 1 + nodes[index - rows].getW();
-                nodes[index - 1].setW(w);
-
-                std::cout << "new node is not in explored, going left" << '\n';
-
-                if (!nodes[index - 1].getVisited())
-                {
-                    std::cout << "not visited push frontier, left" << '\n';
-                    nodes[index - 1].setVisited();
-                    frontier.push(nodes[index - 1]);
-                    nodes[index - 1].setParent(&currNode);
-                }
-                else if (w < nodes[index - 1].getW())
-                {
-                    std::cout << "explored, but relaxing left" << '\n';
-                    nodes[index - 1].setW(w);
-                    nodes[index - 1].setParent(&currNode);
-                }
-            }
-        }
-        // right
-        if (validIndex(index + 1))
-        {
-            std::cout << "going right" << '\n';
-            if (std::count(explored.begin(), explored.end(), nodes[index + 1]) == 0)
-            {
-                std::cout << "new node is not in explored, going right" << '\n';
-                int w = currNode.getW() + 1 + nodes[index - rows].getW();
-                nodes[index + 1].setW(w);
-                if (!nodes[index + 1].getVisited())
-                {
-                    std::cout << "not visited push frontier, right" << '\n';
-                    nodes[index + 1].setVisited();
-                    frontier.push(nodes[index + 1]);
-                    nodes[index + 1].setParent(&currNode);
-                }
-                else if (w < nodes[index + 1].getW())
-                {
-                    std::cout << "explored, but relaxing right" << '\n';
-                    nodes[index + 1].setW(w);
-                    nodes[index + 1].setParent(&currNode);
-                }
-            }
-        }
-    }
-    std::vector<Node> solution;
-    int i = rows * dX + dY;
-    Node *n = &nodes[i];
-    while (n != nullptr)
-    {
-        solution.push_back(*n);
-        n = n->getParent();
     }
     return solution;
 }

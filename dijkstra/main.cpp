@@ -9,19 +9,10 @@ std::vector<Node> createMaze(int rows, int cols)
     {
         for (int j = 0; j < cols; j++)
         {
-            map.push_back(Node(i, j, 1));
+            map.push_back(*new Node(i, j, 1));
         }
     }
     return map;
-}
-void printPath(Node &sol)
-{
-    if (sol.getParent() != nullptr)
-    {
-        std::cout << sol.getX() << "," << sol.getY() << "," << sol.getW() << '\n';
-        Node *par = sol.getParent();
-        printPath(*par);
-    }
 }
 int main()
 {
@@ -38,20 +29,12 @@ int main()
         std::cout << n.getX() << "," << n.getY() << "," << n.getW() << '\n';
     }
     Dijkstra *d = new Dijkstra(map, rows, cols);
-    std::vector<Node> sol = d->findPath(0, 0, 2, 2);
+    std::vector<Node *> sol = d->findPath(0, 0, 2, 2);
 
     std::cout << "---------------" << '\n';
-    // for (auto &n : sol)
-    //{
-    // std::cout << n.getX() << "," << n.getY() << "," << n.getW() << '\n';
-    //}
-    Node n = sol[0];
-    Node *ptr = n.getParent();
-    while (ptr != nullptr)
+    for (auto &n : sol)
     {
-        std::cout << n.getX() << "," << n.getY() << "," << n.getW() << '\n';
-        ptr = n.getParent();
-        n = *ptr;
+        std::cout << n->getX() << "," << n->getY() << "," << n->getW() << '\n';
     }
 
     return 0;

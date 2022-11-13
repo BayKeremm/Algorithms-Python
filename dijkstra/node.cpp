@@ -1,5 +1,8 @@
 #include "node.h"
-Node::Node(int x, int y, int w) : x{x}, y{y}, w{w}, parent{nullptr}
+Node::Node(int x, int y, int w) : x{x}, y{y}, w{w}
+{
+}
+Node::Node(int x, int y, int w, Node *ptr) : x{x}, y{y}, w{w}, parent{ptr}
 {
 }
 
@@ -35,9 +38,18 @@ bool Node::getVisited()
 {
     return visited;
 }
+
+void Node::setDone()
+{
+    done = true;
+}
+bool Node::getDone()
+{
+    return done;
+}
 bool Node::operator<(const Node &b) const
 {
-    return w > const_cast<Node *>(&b)->getW();
+    return w > b.w;
 }
 bool Node::operator==(const Node &b) const
 {
