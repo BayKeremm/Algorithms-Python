@@ -1,5 +1,7 @@
 #ifndef NODE_H_
 #define NODE_H_
+#include <iostream>
+
 class Node
 {
 public:
@@ -7,7 +9,7 @@ public:
     Node(int x, int y, int w, Node *parent);
     int getX();
     int getY();
-    int getW();
+    int getW() const;
     void setW(int nw);
     void setParent(Node *ptr);
     Node *getParent();

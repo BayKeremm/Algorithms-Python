@@ -14,7 +14,7 @@ int Node::getY()
 {
     return y;
 }
-int Node::getW()
+int Node::getW() const
 {
     return w;
 }
@@ -49,7 +49,9 @@ bool Node::getDone()
 }
 bool Node::operator<(const Node &b) const
 {
-    return (*this).w > b.w;
+    std::cout << "compare called"
+              << "\n";
+    return (*this).w < b.w;
 }
 bool Node::operator==(const Node &b) const
 {

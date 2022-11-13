@@ -1,4 +1,5 @@
 #include "dijkstra.h"
+#include "comparator.h"
 #include <iostream>
 #include <cmath>
 
@@ -28,7 +29,7 @@ bool Dijkstra::relax(Node &successor, Node &old)
 std::vector<Node *> Dijkstra::findPath(int sX, int sY, int dX, int dY)
 {
     std::vector<Node *> solution;
-    std::priority_queue<Node *> frontier;
+    std::priority_queue<Node *, std::vector<Node *>, comparator> frontier;
     // find the root node
     // 1D list goes row by row
     // so index = rows*sX + sY

@@ -14,6 +14,7 @@ std::vector<Node> createMaze(int rows, int cols)
     }
     return map;
 }
+
 int main()
 {
     int rows = 3;
