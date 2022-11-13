@@ -24,12 +24,12 @@ int main()
     {
         if (n.getX() == 1 && n.getY() == 1)
         {
-            n.setW(999);
+            n.setW(10);
         }
         std::cout << n.getX() << "," << n.getY() << "," << n.getW() << '\n';
     }
     Dijkstra *d = new Dijkstra(map, rows, cols);
-    std::vector<Node *> sol = d->findPath(0, 0, 2, 2);
+    std::vector<Node *> sol = d->findPath(0, 0, 2, 0);
 
     std::cout << "---------------" << '\n';
     for (auto &n : sol)

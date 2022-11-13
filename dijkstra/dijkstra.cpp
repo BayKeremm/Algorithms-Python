@@ -51,10 +51,7 @@ std::vector<Node *> Dijkstra::findPath(int sX, int sY, int dX, int dY)
             auto n = currNode;
             while (true)
             {
-                std::cout << "insdie found while" << '\n';
                 solution.push_back(n);
-                std::cout << n->getX() << n->getY() << '\n'
-                          << '\n';
                 n = n->getParent();
                 if (n == nullptr)
                 {

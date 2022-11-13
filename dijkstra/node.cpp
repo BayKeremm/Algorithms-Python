@@ -49,7 +49,7 @@ bool Node::getDone()
 }
 bool Node::operator<(const Node &b) const
 {
-    return w > b.w;
+    return (*this).w > b.w;
 }
 bool Node::operator==(const Node &b) const
 {
