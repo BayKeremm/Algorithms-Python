@@ -47,20 +47,3 @@ bool Node::getDone()
 {
     return done;
 }
-bool Node::operator<(const Node &b) const
-{
-    std::cout << "compare called"
-              << "\n";
-    return (*this).w < b.w;
-}
-bool Node::operator==(const Node &b) const
-{
-    if (x == b.x && y == b.y)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}

@@ -1,10 +1,10 @@
 #include "dijkstra.h"
 #include "comparator.h"
 #include <iostream>
-#include <cmath>
+#define PRINT(str) std::cout << str << std::endl
 
-Dijkstra::Dijkstra(std::vector<Node> nds, int rs, int cls) : nodes{nds}, rows{rs},
-                                                             columns{cls}
+Dijkstra::Dijkstra(std::vector<Node> &nds, int rs, int cls) : nodes{nds}, rows{rs},
+                                                              columns{cls}
 {
 }
 Dijkstra::~Dijkstra()
@@ -14,29 +14,14 @@ Dijkstra::~Dijkstra()
         delete &n;
     }
 }
-bool Dijkstra::relax(Node &successor, Node &old)
-{
-    if (successor.getW() < old.getW())
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
 
 std::vector<Node *> Dijkstra::findPath(int sX, int sY, int dX, int dY)
 {
     std::vector<Node *> solution;
     std::priority_queue<Node *, std::vector<Node *>, comparator> frontier;
-    // find the root node
-    // 1D list goes row by row
-    // so index = rows*sX + sY
     int index = rows * sX + sY;
     nodes[index].setW(0);
     nodes[index].setParent(nullptr);
-    // push the root node to the pq
     frontier.push(&nodes[index]);
 
     while (!frontier.empty())
@@ -44,11 +29,11 @@ std::vector<Node *> Dijkstra::findPath(int sX, int sY, int dX, int dY)
         auto currNode = frontier.top();
         frontier.pop();
         currNode->setDone();
+        PRINT("inside frontier loop with the following currNode");
+        std::cout << currNode->getX() << "," << currNode->getY() << "," << currNode->getW() << '\n';
 
         if (currNode->getX() == dX && currNode->getY() == dY)
         {
-            // found
-            std::cout << "found breaking" << '\n';
             auto n = currNode;
             while (true)
             {
@@ -59,7 +44,6 @@ std::vector<Node *> Dijkstra::findPath(int sX, int sY, int dX, int dY)
                     break;
                 }
             }
-            std::cout << "finished breaking" << '\n';
             return solution;
         }
         // for each successor
@@ -67,23 +51,30 @@ std::vector<Node *> Dijkstra::findPath(int sX, int sY, int dX, int dY)
         {
             for (int j = std::max(currNode->getY() - 1, 0); j <= std::min(currNode->getY() + 1, rows - 1); j++)
             {
-                int index = i + columns * j;
+                PRINT("inside successor loop with following successor");
+                int index = j + rows * i;
                 int w = currNode->getW() + 1 + nodes[index].getW();
+                std::cout << nodes[index].getX() << "," << nodes[index].getY() << "," << nodes[index].getW() << '\n';
+                std::cout << "calculated weight; ";
+                PRINT(w);
 
                 if (nodes[index].getDone())
                 {
+                    PRINT("node is done continue");
                     continue;
                 }
-                else if (!nodes[index].getVisited())
+                if (!nodes[index].getVisited())
                 {
-                    std::cout << "-----------------" << '\n';
+                    PRINT("adding to frontier");
                     nodes[index].setVisited();
-                    std::cout << index % rows << "," << index / columns << '\n';
-                    frontier.emplace(new Node(index % rows, index / columns, w, currNode));
+                    nodes[index].setW(w);
+                    nodes[index].setParent(currNode);
+                    frontier.push(&nodes[index]);
+                    // frontier.emplace(new Node(nodes[index].getX(), nodes[index].getY(), w, currNode));
                 }
                 else if (w < nodes[index].getW())
                 {
-                    std::cout << "ooooo" << '\n';
+                    PRINT("changing the weight");
                     nodes[index].setW(w);
                     nodes[index].setParent(currNode);
                 }
@@ -92,148 +83,3 @@ std::vector<Node *> Dijkstra::findPath(int sX, int sY, int dX, int dY)
     }
     return solution;
 }
-bool Dijkstra::validIndex(int index)
-{
-    if (index < rows * columns - 1 && index >= 0)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
-bool Dijkstra::destReached(int x, int y, int dx, int dy)
-{
-    if (x == dx && y == dy)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
-
-/*
-Node currNode = pq.top();
-pq.pop();
-
-if (destReached(currNode.getX(), currNode.getY(), dX, dY))
-{
-    solution.push_back(currNode);
-    return solution;
-}
-// at max 8 neighboring Node
-if (validIndex(index + rows))
-{
-    Node successor(currNode.getX() + 1, currNode.getY(), currNode.getW() + nodes[index + rows].getW());
-    successor.setParent(&currNode);
-    if (nodes[index + rows].getVisited())
-    {
-        Node old_node = pq.top();
-        if (relax(successor, old_node))
-        {
-            pq.pop();
-        }
-    }
-    pq.push(successor);
-}
-if (validIndex(index + 1))
-{
-    Node successor(currNode.getX(), currNode.getY() + 1, currNode.getW() + nodes[index + 1].getW());
-    successor.setParent(&currNode);
-    if (nodes[index + 1].getVisited())
-    {
-        Node old_node = pq.top();
-        if (relax(successor, old_node))
-        {
-            pq.pop();
-        }
-    }
-    pq.push(successor);
-}
-if (validIndex(index + 1 + rows))
-{
-    Node successor(currNode.getX() + 1, currNode.getY() + 1, currNode.getW() + nodes[index + 1 + rows].getW());
-    successor.setParent(&currNode);
-    if (nodes[index + 1].getVisited())
-    {
-        Node old_node = pq.top();
-        if (relax(successor, old_node))
-        {
-            pq.pop();
-        }
-    }
-    pq.push(successor);
-}
-if (validIndex(index - 1))
-{
-    Node successor(currNode.getX(), currNode.getY() - 1, currNode.getW() + nodes[index - 1].getW());
-    successor.setParent(&currNode);
-    if (nodes[index - 1].getVisited())
-    {
-        Node old_node = pq.top();
-        if (relax(successor, old_node))
-        {
-            pq.pop();
-        }
-    }
-    pq.push(successor);
-}
-if (validIndex(index - rows))
-{
-    Node successor(currNode.getX() - 1, currNode.getY(), currNode.getW() + nodes[index - rows].getW());
-    successor.setParent(&currNode);
-    if (nodes[index - rows].getVisited())
-    {
-        Node old_node = pq.top();
-        if (relax(successor, old_node))
-        {
-            pq.pop();
-        }
-    }
-    pq.push(successor);
-}
-if (validIndex(index - rows - 1))
-{
-    Node successor(currNode.getX() - 1, currNode.getY() - 1, currNode.getW() + nodes[index - rows - 1].getW());
-    successor.setParent(&currNode);
-    if (nodes[index - rows - 1].getVisited())
-    {
-        Node old_node = pq.top();
-        if (relax(successor, old_node))
-        {
-            pq.pop();
-        }
-    }
-    pq.push(successor);
-}
-if (validIndex(index - rows + 1))
-{
-    Node successor(currNode.getX() - 1, currNode.getY() + 1, currNode.getW() + nodes[index - rows + 1].getW());
-    successor.setParent(&currNode);
-    if (nodes[index - rows + 1].getVisited())
-    {
-        Node old_node = pq.top();
-        if (relax(successor, old_node))
-        {
-            pq.pop();
-        }
-    }
-    pq.push(successor);
-}
-if (validIndex(index + rows - 1))
-{
-    Node successor(currNode.getX() + 1, currNode.getY() - 1, currNode.getW() + nodes[index + rows - 1].getW());
-    successor.setParent(&currNode);
-    if (nodes[index + rows - 1].getVisited())
-    {
-        Node old_node = pq.top();
-        if (relax(successor, old_node))
-        {
-            pq.pop();
-        }
-    }
-    pq.push(successor);
-*/

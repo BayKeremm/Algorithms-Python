@@ -17,8 +17,6 @@ public:
     bool getVisited();
     void setDone();
     bool getDone();
-    bool operator<(const Node &b) const;
-    bool operator==(const Node &b) const;
 
 private:
     int x;
