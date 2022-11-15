@@ -44,8 +44,8 @@ int main(int argc, char **argv)
     // std::cout << argc << "\n";
     // std::cout << argv[0] << " " << *argv[1] << " " << *argv[2] << " " << *argv[3] << '\n';
     // 3000x3000 = 9,000,000 tiles
-    int rows = 100;
-    int cols = 100;
+    int rows = 3000;
+    int cols = 2000;
     time_t current_time;
 
     std::vector<std::unique_ptr<Tile>> map = createTileMaze(rows, cols);
@@ -53,11 +53,7 @@ int main(int argc, char **argv)
 
     for (auto &n : map)
     {
-        if (n->getXPos() == n->getYPos())
-        {
-            n->setValue(20);
-        }
-        if (n->getYPos() == 5)
+        if (n->getYPos() == 3)
         {
             if (n->getXPos() == 0)
             {
@@ -76,20 +72,22 @@ int main(int argc, char **argv)
     {
         nodes.push_back(*new Node(t, nullptr));
     }
+    // std::cout << "Size of nodes: ";
+    // std::cout << nodes.size() << std::endl;
 
     Dijkstra *d = new Dijkstra(nodes, rows, cols);
-    std::vector<Node *> sol = d->findPath(0, 0, 99, 99);
+    std::vector<Node *> sol = d->findPath(0, 0, 2999, 1999);
 
     current_time = time(NULL);
     std::cout << current_time << std::endl;
 
     std::cout << "---------------solution-----------------" << '\n';
-    printMap(sol, rows, cols);
-    // std::cout << sol.size() << std::endl;
-    // for (auto &n : sol)
-    //{
-    // std::cout << n->getX() << "," << n->getY() << "," << n->getW() << '\n';
-    //}
+    // printMap(sol, rows, cols);
+    std::cout << sol.size() << std::endl;
+    for (auto &n : sol)
+    {
+        std::cout << n->getX() << "," << n->getY() << "," << n->getW() << '\n';
+    }
 
     return 0;
 }

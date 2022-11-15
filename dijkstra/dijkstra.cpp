@@ -25,17 +25,17 @@ std::vector<Node *> Dijkstra::findPath(int sX, int sY, int dX, int dY)
 {
     std::vector<Node *> solution;
     std::priority_queue<Node *, std::vector<Node *>, comparator> frontier;
-    int index = rows * sX + sY;
-    nodes[index].setW(0);
-    nodes[index].setParent(nullptr);
-    frontier.push(&nodes[index]);
+    int start_index = rows * sX + sY;
+    nodes[start_index].setW(0);
+    nodes[start_index].setParent(nullptr);
+    frontier.push(&nodes[start_index]);
 
     while (!frontier.empty())
     {
         auto currNode = frontier.top();
         frontier.pop();
         currNode->setDone();
-        // PRINT("inside frontier loop with the following currNode");
+        PRINT("inside frontier loop with the following currNode");
         // std::cout << currNode->getX() << "," << currNode->getY() << "," << currNode->getW() << '\n';
 
         if (currNode->getX() == dX && currNode->getY() == dY)
@@ -56,31 +56,28 @@ std::vector<Node *> Dijkstra::findPath(int sX, int sY, int dX, int dY)
             return solution;
         }
         // for each successor
-        for (int i = std::max(currNode->getX() - 1, 0); i <= std::min(currNode->getX() + 1, columns - 1); i++)
+        for (int i = std::max(currNode->getX() - 1, 0); i <= std::min(currNode->getX() + 1, rows - 1); i++)
         {
-            for (int j = std::max(currNode->getY() - 1, 0); j <= std::min(currNode->getY() + 1, rows - 1); j++)
+            for (int j = std::max(currNode->getY() - 1, 0); j <= std::min(currNode->getY() + 1, columns - 1); j++)
             {
-                // PRINT("inside successor loop with following successor");
-                int index = j + rows * i;
-                // float factor = 1.f;
-                // if (std::abs(currNode->getX() - nodes[index].getX()) + std::abs(currNode->getY() - nodes[index].getY()) == 2)
-                //{
-                // factor = std::sqrt(2);
-                //}
+                int index = j + columns * i;
+                // std::cout << "i is: " << i << " j is: " << j << " index is: " << index << std::endl;
+                // std::cout << "i is: " << index / rows << " j is: " << (index / rows) % columns << " index is: " << index << std::endl;
                 int w = currNode->getW() + nodes[index].getW();
 
+                PRINT("inside successor loop with following successor");
                 // std::cout << nodes[index].getX() << "," << nodes[index].getY() << "," << nodes[index].getW() << '\n';
-                // std::cout << "calculated weight; ";
-                // PRINT(w);
+                //  std::cout << "calculated weight; ";
+                //  PRINT(w);
 
                 if (nodes[index].getDone())
                 {
-                    // PRINT("node is done continue");
+                    PRINT("node is done continue");
                     continue;
                 }
                 if (!nodes[index].getVisited())
                 {
-                    // PRINT("adding to frontier");
+                    PRINT("adding to frontier");
                     nodes[index].setVisited();
                     nodes[index].setW(w);
                     nodes[index].setParent(currNode);
@@ -89,7 +86,7 @@ std::vector<Node *> Dijkstra::findPath(int sX, int sY, int dX, int dY)
                 }
                 else if (w < nodes[index].getW())
                 {
-                    // PRINT("changing the weight");
+                    PRINT("changing the weight");
                     nodes[index].setW(w);
                     nodes[index].setParent(currNode);
                 }
