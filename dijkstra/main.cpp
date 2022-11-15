@@ -41,11 +41,9 @@ void printMap(std::vector<Node *> sol, int rows, int columns)
 }
 int main(int argc, char **argv)
 {
-    // std::cout << argc << "\n";
-    // std::cout << argv[0] << " " << *argv[1] << " " << *argv[2] << " " << *argv[3] << '\n';
-    // 3000x3000 = 9,000,000 tiles
-    int rows = 3000;
-    int cols = 2000;
+    // 3000x2000 = 6,000,000 tiles
+    int rows = 30;
+    int cols = 20;
     time_t current_time;
 
     std::vector<std::unique_ptr<Tile>> map = createTileMaze(rows, cols);
@@ -72,11 +70,9 @@ int main(int argc, char **argv)
     {
         nodes.push_back(*new Node(t, nullptr));
     }
-    // std::cout << "Size of nodes: ";
-    // std::cout << nodes.size() << std::endl;
 
     Dijkstra *d = new Dijkstra(nodes, rows, cols);
-    std::vector<Node *> sol = d->findPath(0, 0, 2999, 1999);
+    std::vector<Node *> sol = d->findPath(0, 0, 29, 19);
 
     current_time = time(NULL);
     std::cout << current_time << std::endl;
