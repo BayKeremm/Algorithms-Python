@@ -11,7 +11,7 @@ public:
     std::vector<Node *> findPath(int sX, int sY, int dX, int dY);
 
 private:
-    std::vector<Node> nodes;
+    std::vector<Node> &nodes;
     int rows;
     int columns;
 };

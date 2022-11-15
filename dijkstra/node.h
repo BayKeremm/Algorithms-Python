@@ -1,12 +1,13 @@
 #ifndef NODE_H_
 #define NODE_H_
 #include <iostream>
+#include "tile.h"
 
 class Node
 {
 public:
-    Node(int x, int y, int w);
-    Node(int x, int y, int w, Node *parent);
+    Node(std::unique_ptr<Tile> &t);
+    Node(std::unique_ptr<Tile> &t, Node *parent);
     int getX();
     int getY();
     int getW() const;
@@ -19,9 +20,7 @@ public:
     bool getDone();
 
 private:
-    int x;
-    int y;
-    int w;
+    std::unique_ptr<Tile> &ptr;
     Node *parent;
     bool visited;
     bool done;

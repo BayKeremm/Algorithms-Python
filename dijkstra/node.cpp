@@ -1,27 +1,27 @@
 #include "node.h"
-Node::Node(int x, int y, int w) : x{x}, y{y}, w{w}
+Node::Node(std::unique_ptr<Tile> &t) : ptr{t}
 {
 }
-Node::Node(int x, int y, int w, Node *ptr) : x{x}, y{y}, w{w}, parent{ptr}
+Node::Node(std::unique_ptr<Tile> &t, Node *prev) : ptr{t}, parent{prev}
 {
 }
-
 int Node::getX()
 {
-    return x;
+    return ptr->getXPos();
 }
 int Node::getY()
 {
-    return y;
+    return ptr->getYPos();
 }
 int Node::getW() const
 {
-    return w;
+    return ptr->getValue();
 }
 void Node::setW(int nw)
 {
-    w = nw;
+    ptr->setValue(nw);
 }
+
 void Node::setParent(Node *ptr)
 {
     parent = ptr;

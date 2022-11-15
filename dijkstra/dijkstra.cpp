@@ -1,7 +1,13 @@
 #include "dijkstra.h"
 #include "comparator.h"
 #include <iostream>
+#include <cmath>
+
+#ifdef DEBUG
 #define PRINT(str) std::cout << str << std::endl
+#else
+#define PRINT(str)
+#endif
 
 Dijkstra::Dijkstra(std::vector<Node> &nds, int rs, int cls) : nodes{nds}, rows{rs},
                                                               columns{cls}
@@ -29,8 +35,8 @@ std::vector<Node *> Dijkstra::findPath(int sX, int sY, int dX, int dY)
         auto currNode = frontier.top();
         frontier.pop();
         currNode->setDone();
-        PRINT("inside frontier loop with the following currNode");
-        std::cout << currNode->getX() << "," << currNode->getY() << "," << currNode->getW() << '\n';
+        // PRINT("inside frontier loop with the following currNode");
+        // std::cout << currNode->getX() << "," << currNode->getY() << "," << currNode->getW() << '\n';
 
         if (currNode->getX() == dX && currNode->getY() == dY)
         {
@@ -51,21 +57,28 @@ std::vector<Node *> Dijkstra::findPath(int sX, int sY, int dX, int dY)
         {
             for (int j = std::max(currNode->getY() - 1, 0); j <= std::min(currNode->getY() + 1, rows - 1); j++)
             {
-                PRINT("inside successor loop with following successor");
+                // PRINT("inside successor loop with following successor");
                 int index = j + rows * i;
-                int w = currNode->getW() + 1 + nodes[index].getW();
-                std::cout << nodes[index].getX() << "," << nodes[index].getY() << "," << nodes[index].getW() << '\n';
-                std::cout << "calculated weight; ";
-                PRINT(w);
+                float factor = 1.f;
+                if (std::abs(currNode->getX() - nodes[index].getX()) + std::abs(currNode->getY() - nodes[index].getY()) == 2)
+                {
+                    factor = std::sqrt(2);
+                }
+                auto heuristic = std::sqrt((dX - nodes[index].getX()) ^ 2 + (dY - nodes[index].getY()) ^ 2);
+                int w = currNode->getW() + nodes[index].getW() * factor + heuristic;
+
+                // std::cout << nodes[index].getX() << "," << nodes[index].getY() << "," << nodes[index].getW() << '\n';
+                // std::cout << "calculated weight; ";
+                // PRINT(w);
 
                 if (nodes[index].getDone())
                 {
-                    PRINT("node is done continue");
+                    // PRINT("node is done continue");
                     continue;
                 }
                 if (!nodes[index].getVisited())
                 {
-                    PRINT("adding to frontier");
+                    // PRINT("adding to frontier");
                     nodes[index].setVisited();
                     nodes[index].setW(w);
                     nodes[index].setParent(currNode);
@@ -74,7 +87,7 @@ std::vector<Node *> Dijkstra::findPath(int sX, int sY, int dX, int dY)
                 }
                 else if (w < nodes[index].getW())
                 {
-                    PRINT("changing the weight");
+                    // PRINT("changing the weight");
                     nodes[index].setW(w);
                     nodes[index].setParent(currNode);
                 }
