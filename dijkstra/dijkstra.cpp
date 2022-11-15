@@ -41,15 +41,18 @@ std::vector<Node *> Dijkstra::findPath(int sX, int sY, int dX, int dY)
         if (currNode->getX() == dX && currNode->getY() == dY)
         {
             auto n = currNode;
+            int cost = 0;
             while (true)
             {
                 solution.push_back(n);
+                cost += n->getW();
                 n = n->getParent();
                 if (n == nullptr)
                 {
                     break;
                 }
             }
+            std::cout << "THE TOTAL COST: " << cost << '\n';
             return solution;
         }
         // for each successor
@@ -59,13 +62,12 @@ std::vector<Node *> Dijkstra::findPath(int sX, int sY, int dX, int dY)
             {
                 // PRINT("inside successor loop with following successor");
                 int index = j + rows * i;
-                float factor = 1.f;
-                if (std::abs(currNode->getX() - nodes[index].getX()) + std::abs(currNode->getY() - nodes[index].getY()) == 2)
-                {
-                    factor = std::sqrt(2);
-                }
-                auto heuristic = std::sqrt((dX - nodes[index].getX()) ^ 2 + (dY - nodes[index].getY()) ^ 2);
-                int w = currNode->getW() + nodes[index].getW() * factor + heuristic;
+                // float factor = 1.f;
+                // if (std::abs(currNode->getX() - nodes[index].getX()) + std::abs(currNode->getY() - nodes[index].getY()) == 2)
+                //{
+                // factor = std::sqrt(2);
+                //}
+                int w = currNode->getW() + nodes[index].getW();
 
                 // std::cout << nodes[index].getX() << "," << nodes[index].getY() << "," << nodes[index].getW() << '\n';
                 // std::cout << "calculated weight; ";
