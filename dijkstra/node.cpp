@@ -21,6 +21,14 @@ void Node::setW(int nw)
 {
     ptr->setValue(nw);
 }
+int Node::getCost() const
+{
+    return cost;
+}
+void Node::setCost(int nw)
+{
+    cost = nw;
+}
 
 void Node::setParent(Node *ptr)
 {

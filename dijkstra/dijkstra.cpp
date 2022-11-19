@@ -3,6 +3,7 @@
 #include <iostream>
 #include <cmath>
 
+#define DEBUG
 #ifdef DEBUG
 #define PRINT(str) std::cout << str << std::endl
 #else
@@ -26,7 +27,7 @@ std::vector<Node *> Dijkstra::findPath(int sX, int sY, int dX, int dY)
     std::vector<Node *> solution;
     std::priority_queue<Node *, std::vector<Node *>, comparator> frontier;
     int start_index = rows * sX + sY;
-    nodes[start_index].setW(0);
+    nodes[start_index].setCost(0);
     nodes[start_index].setParent(nullptr);
     frontier.push(&nodes[start_index]);
 
@@ -37,26 +38,21 @@ std::vector<Node *> Dijkstra::findPath(int sX, int sY, int dX, int dY)
         currNode->setDone();
 #ifdef DEBUG
         PRINT("inside frontier loop with the following currNode");
-        std::cout << currNode->getX() << "," << currNode->getY() << "," << currNode->getW() << '\n';
+        std::cout << currNode->getX() << "," << currNode->getY() << "," << currNode->getW() << ", " << currNode->getCost() << '\n';
 #endif
 
         if (currNode->getX() == dX && currNode->getY() == dY)
         {
             auto n = currNode;
-            int cost = 0;
             while (true)
             {
                 solution.push_back(n);
-                cost += n->getW();
                 n = n->getParent();
                 if (n == nullptr)
                 {
                     break;
                 }
             }
-#ifdef DEBUG
-            std::cout << "THE TOTAL COST: " << cost << '\n';
-#endif
             return solution;
         }
         // for each successor
@@ -66,38 +62,40 @@ std::vector<Node *> Dijkstra::findPath(int sX, int sY, int dX, int dY)
         {
             for (int j = std::max(curr_y - 1, 0); j <= std::min(curr_y + 1, columns - 1); j++)
             {
+                int index = j + columns * i;
+                int w = currNode->getCost() + nodes[index].getW();
 #ifdef DEBUG
-                std::cout << "i is: " << i << " j is: " << j << " index is: " << index << std::endl;
-                std::cout << "i is: " << index / rows << " j is: " << (index / rows) % columns << " index is: " << index << std::endl;
+                // std::cout << "i is: " << i << " j is: " << j << " index is: " << index << std::endl;
+                // std::cout << "i is: " << index / rows << " j is: " << (index / rows) % columns << " index is: " << index << std::endl;
                 PRINT("inside successor loop with following successor");
-                std::cout << nodes[index].getX() << "," << nodes[index].getY() << "," << nodes[index].getW() << '\n';
+                std::cout << nodes[index].getX() << "," << nodes[index].getY() << "," << nodes[index].getW() << ", " << nodes[index].getW() << '\n';
                 std::cout << "calculated weight; ";
                 PRINT(w);
 #endif
-                int index = j + columns * i;
 
                 if (nodes[index].getDone())
                 {
+#ifdef DEBUG
                     PRINT("node is done continue");
+#endif
                     continue;
                 }
-                int w = currNode->getW() + nodes[index].getW();
                 if (!nodes[index].getVisited())
                 {
 #ifdef DEBUG
                     PRINT("adding to frontier");
 #endif
                     nodes[index].setVisited();
-                    nodes[index].setW(w);
+                    nodes[index].setCost(w);
                     nodes[index].setParent(currNode);
                     frontier.push(&nodes[index]);
                 }
-                else if (w < nodes[index].getW())
+                else if (w < nodes[index].getCost())
                 {
 #ifdef DEBUG
                     PRINT("changing the weight");
 #endif
-                    nodes[index].setW(w);
+                    nodes[index].setCost(w);
                     nodes[index].setParent(currNode);
                 }
             }

@@ -5,6 +5,13 @@
 #include "dijkstra.h"
 #include "tile.h"
 
+/*
+TODO:
+-add the cost and do not change anything related to the tile
+at the end refresh the data structure and avoid copying.
+- Try the Node class which extends the tile class. Compare time
+*/
+
 std::vector<std::unique_ptr<Tile>> createTileMaze(int rows, int cols)
 {
     std::vector<std::unique_ptr<Tile>> map;
@@ -41,9 +48,8 @@ void printMap(std::vector<Node *> sol, int rows, int columns)
 }
 int main(int argc, char **argv)
 {
-    // 3000x2000 = 6,000,000 tiles
-    int rows = 30;
-    int cols = 20;
+    int rows = 10;
+    int cols = 10;
     time_t current_time;
 
     std::vector<std::unique_ptr<Tile>> map = createTileMaze(rows, cols);
@@ -62,6 +68,10 @@ int main(int argc, char **argv)
                 n->setValue(100);
             }
         }
+        if (n->getXPos() == n->getYPos())
+        {
+            n->setValue(200);
+        }
     }
 
     current_time = time(NULL);
@@ -72,17 +82,17 @@ int main(int argc, char **argv)
     }
 
     Dijkstra *d = new Dijkstra(nodes, rows, cols);
-    std::vector<Node *> sol = d->findPath(0, 0, 29, 19);
+    std::vector<Node *> sol = d->findPath(0, 0, 9, 9);
 
     current_time = time(NULL);
     std::cout << current_time << std::endl;
 
     std::cout << "---------------solution-----------------" << '\n';
-    // printMap(sol, rows, cols);
+    printMap(sol, rows, cols);
     std::cout << sol.size() << std::endl;
     for (auto &n : sol)
     {
-        std::cout << n->getX() << "," << n->getY() << "," << n->getW() << '\n';
+        std::cout << n->getX() << "," << n->getY() << "," << n->getCost() << "," << n->getCost() << '\n';
     }
 
     return 0;

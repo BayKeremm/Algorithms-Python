@@ -12,6 +12,8 @@ public:
     int getY();
     int getW() const;
     void setW(int nw);
+    int getCost() const;
+    void setCost(int nw);
     void setParent(Node *ptr);
     Node *getParent();
     void setVisited();
@@ -20,6 +22,7 @@ public:
     bool getDone();
 
 private:
+    int cost{0};
     std::unique_ptr<Tile> &ptr;
     Node *parent;
     bool visited;

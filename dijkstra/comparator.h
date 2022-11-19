@@ -6,7 +6,7 @@ class comparator
 public:
     bool operator()(const Node *a, const Node *b)
     {
-        return a->getW() > b->getW();
+        return a->getCost() > b->getCost();
     }
 };
 
