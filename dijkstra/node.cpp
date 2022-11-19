@@ -5,21 +5,17 @@ Node::Node(std::unique_ptr<Tile> &t) : ptr{t}
 Node::Node(std::unique_ptr<Tile> &t, Node *prev) : ptr{t}, parent{prev}
 {
 }
-int Node::getX()
+int Node::getX() const
 {
     return ptr->getXPos();
 }
-int Node::getY()
+int Node::getY() const
 {
     return ptr->getYPos();
 }
 int Node::getW() const
 {
     return ptr->getValue();
-}
-void Node::setW(int nw)
-{
-    ptr->setValue(nw);
 }
 int Node::getCost() const
 {

@@ -3,7 +3,6 @@
 #include <iostream>
 #include <cmath>
 
-#define DEBUG
 #ifdef DEBUG
 #define PRINT(str) std::cout << str << std::endl
 #else
@@ -22,11 +21,18 @@ Dijkstra::~Dijkstra()
     }
 }
 
+constexpr inline float heuristic(const Node *const curr, const Node *const goal)
+{
+    return std::abs(goal->getX() - curr->getX()) +
+           std::abs(goal->getY() - curr->getY());
+}
+
 std::vector<Node *> Dijkstra::findPath(int sX, int sY, int dX, int dY)
 {
     std::vector<Node *> solution;
     std::priority_queue<Node *, std::vector<Node *>, comparator> frontier;
     int start_index = rows * sX + sY;
+    int goal_index = rows * dX + dY;
     nodes[start_index].setCost(0);
     nodes[start_index].setParent(nullptr);
     frontier.push(&nodes[start_index]);
@@ -63,7 +69,8 @@ std::vector<Node *> Dijkstra::findPath(int sX, int sY, int dX, int dY)
             for (int j = std::max(curr_y - 1, 0); j <= std::min(curr_y + 1, columns - 1); j++)
             {
                 int index = j + columns * i;
-                int w = currNode->getCost() + nodes[index].getW();
+                char distance = std::abs(nodes[index].getX() - i) + std::abs(nodes[index].getY() - j);
+                int w = currNode->getCost() + nodes[index].getW() + distance + heuristic(currNode, &nodes[goal_index]);
 #ifdef DEBUG
                 // std::cout << "i is: " << i << " j is: " << j << " index is: " << index << std::endl;
                 // std::cout << "i is: " << index / rows << " j is: " << (index / rows) % columns << " index is: " << index << std::endl;

@@ -48,8 +48,8 @@ void printMap(std::vector<Node *> sol, int rows, int columns)
 }
 int main(int argc, char **argv)
 {
-    int rows = 10;
-    int cols = 10;
+    int rows = 3000;
+    int cols = 3000;
     time_t current_time;
 
     std::vector<std::unique_ptr<Tile>> map = createTileMaze(rows, cols);
@@ -82,17 +82,17 @@ int main(int argc, char **argv)
     }
 
     Dijkstra *d = new Dijkstra(nodes, rows, cols);
-    std::vector<Node *> sol = d->findPath(0, 0, 9, 9);
+    std::vector<Node *> sol = d->findPath(0, 0, 2999, 2999);
 
     current_time = time(NULL);
     std::cout << current_time << std::endl;
 
     std::cout << "---------------solution-----------------" << '\n';
-    printMap(sol, rows, cols);
+    // printMap(sol, rows, cols);
     std::cout << sol.size() << std::endl;
     for (auto &n : sol)
     {
-        std::cout << n->getX() << "," << n->getY() << "," << n->getCost() << "," << n->getCost() << '\n';
+        std::cout << n->getX() << "," << n->getY() << "," << n->getW() << "," << n->getCost() << '\n';
     }
 
     return 0;

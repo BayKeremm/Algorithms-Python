@@ -8,10 +8,9 @@ class Node
 public:
     Node(std::unique_ptr<Tile> &t);
     Node(std::unique_ptr<Tile> &t, Node *parent);
-    int getX();
-    int getY();
+    int getX() const;
+    int getY() const;
     int getW() const;
-    void setW(int nw);
     int getCost() const;
     void setCost(int nw);
     void setParent(Node *ptr);
