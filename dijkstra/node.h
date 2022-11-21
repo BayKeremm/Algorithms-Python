@@ -6,8 +6,10 @@
 class Node
 {
 public:
-    Node(std::unique_ptr<Tile> &t);
-    Node(std::unique_ptr<Tile> &t, Node *parent);
+    // Node(std::unique_ptr<Tile> &t);
+    Node(int x, int y, float w);
+    Node(int x, int y, float w, Node *parent);
+    // Node(std::unique_ptr<Tile> &t, Node *parent);
     int getX() const;
     int getY() const;
     int getW() const;
@@ -15,14 +17,16 @@ public:
     void setCost(int nw);
     void setParent(Node *ptr);
     Node *getParent();
-    void setVisited();
+    void setVisited(bool val);
     bool getVisited();
-    void setDone();
+    void setDone(bool val);
     bool getDone();
 
 private:
     int cost{0};
-    std::unique_ptr<Tile> &ptr;
+    int x, y;
+    float w;
+    // std::unique_ptr<Tile> &ptr;
     Node *parent;
     bool visited;
     bool done;

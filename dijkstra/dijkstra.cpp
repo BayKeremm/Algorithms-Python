@@ -26,9 +26,9 @@ constexpr inline float heuristic(const Node *const curr, const Node *const goal)
     return std::abs(goal->getX() - curr->getX()) +
            std::abs(goal->getY() - curr->getY());
 }
-
 std::vector<Node *> Dijkstra::findPath(int sX, int sY, int dX, int dY)
 {
+    PRINT("before the while loop");
     std::vector<Node *> solution;
     std::priority_queue<Node *, std::vector<Node *>, comparator> frontier;
     int start_index = rows * sX + sY;
@@ -41,7 +41,7 @@ std::vector<Node *> Dijkstra::findPath(int sX, int sY, int dX, int dY)
     {
         auto currNode = frontier.top();
         frontier.pop();
-        currNode->setDone();
+        currNode->setDone(true);
 #ifdef DEBUG
         PRINT("inside frontier loop with the following currNode");
         std::cout << currNode->getX() << "," << currNode->getY() << "," << currNode->getW() << ", " << currNode->getCost() << '\n';
@@ -92,7 +92,7 @@ std::vector<Node *> Dijkstra::findPath(int sX, int sY, int dX, int dY)
 #ifdef DEBUG
                     PRINT("adding to frontier");
 #endif
-                    nodes[index].setVisited();
+                    nodes[index].setVisited(true);
                     nodes[index].setCost(w);
                     nodes[index].setParent(currNode);
                     frontier.push(&nodes[index]);
@@ -109,4 +109,14 @@ std::vector<Node *> Dijkstra::findPath(int sX, int sY, int dX, int dY)
         }
     }
     return solution;
+}
+void Dijkstra::resetMap()
+{
+    std::cout << "size is " << nodes.size() << std::endl;
+    for (auto &n : nodes)
+    {
+        n.setCost(0);
+        n.setDone(false);
+        n.setVisited(false);
+    }
 }
