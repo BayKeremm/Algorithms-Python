@@ -3,6 +3,7 @@
 #include <memory>
 #include "node.h"
 #include "dijkstra.h"
+#include "astar.h"
 #include "tile.h"
 
 /*
@@ -41,59 +42,64 @@ void printMap(std::vector<Node *> sol, int rows, int columns)
                 }
             }
             if (!k)
+            {
                 std::cout << "- ";
+            }
         }
         std::cout << '\n';
     }
 }
 int main(int argc, char **argv)
 {
-    int rows = 3000;
-    int cols = 2000;
+    int rows = 10;
+    int cols = 10;
     time_t current_time;
 
     std::vector<std::unique_ptr<Tile>> map = createTileMaze(rows, cols);
     std::vector<Node> nodes;
+    nodes.reserve(rows * cols);
 
     for (auto &n : map)
     {
-        if (n->getYPos() == 3)
+        if (n->getXPos() == 5 && n->getYPos() == 5)
         {
-            if (n->getXPos() == 0)
-            {
-                n->setValue(0);
-            }
-            else
-            {
-                n->setValue(100);
-            }
+            n->setValue(200);
         }
-        if (n->getXPos() == n->getYPos())
+        if (n->getXPos() == 4 && n->getYPos() == 5)
+        {
+            n->setValue(200);
+        }
+        if (n->getXPos() == 5 && n->getYPos() == 4)
         {
             n->setValue(200);
         }
     }
 
     for (auto &t : map)
+    // TODO: move semantics, the following code copies twice the tiles
     {
-        nodes.push_back(*new Node(t->getXPos(), t->getYPos(), t->getValue(), nullptr));
+        nodes.push_back(std::move(*new Node(t->getXPos(), t->getYPos(), t->getValue(), nullptr)));
     }
 
     current_time = time(NULL);
     std::cout << current_time << std::endl;
-    Dijkstra *d = new Dijkstra(nodes, rows, cols);
-    std::vector<Node *> sol = d->findPath(0, 0, 2999, 1999);
+
+    // TODO: Move semantics
+    Astar *d = new Astar(nodes, rows, cols);
+    std::vector<Node *> sol = d->findPath(0, 0, 9, 9);
     current_time = time(NULL);
     std::cout << current_time << std::endl;
 
     std::cout << "---------------solution-----------------" << '\n';
-    // printMap(sol, rows, cols);
-    std::cout << sol.size() << std::endl;
+    printMap(sol, rows, cols);
     d->resetMap();
+    int size = 0;
     for (auto &n : sol)
     {
+        size++;
         std::cout << n->getX() << "," << n->getY() << "," << n->getW() << "," << n->getCost() << '\n';
     }
+    printf("%d\n is the size of sol", size);
 
     return 0;
 }

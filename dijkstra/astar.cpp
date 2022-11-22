@@ -1,4 +1,4 @@
-#include "dijkstra.h"
+#include "astar.h"
 #include "comparator.h"
 #include <iostream>
 #include <cmath>
@@ -9,11 +9,11 @@
 #define PRINT(str)
 #endif
 
-Dijkstra::Dijkstra(std::vector<Node> &nds, int rs, int cls) : nodes{nds}, rows{rs},
-                                                              columns{cls}
+Astar::Astar(std::vector<Node> &nds, int rs, int cls) : nodes{nds}, rows{rs},
+                                                        columns{cls}
 {
 }
-Dijkstra::~Dijkstra()
+Astar::~Astar()
 {
     for (auto &n : nodes)
     {
@@ -21,10 +21,16 @@ Dijkstra::~Dijkstra()
     }
 }
 
-std::vector<Node *> Dijkstra::findPath(int sX, int sY, int dX, int dY)
+constexpr inline float heuristic(const Node *const curr, const Node *const goal)
+{
+    return std::abs(goal->getX() - curr->getX()) +
+           std::abs(goal->getY() - curr->getY());
+}
+std::vector<Node *> Astar::findPath(int sX, int sY, int dX, int dY)
 {
     PRINT("before the while loop");
     std::vector<Node *> solution;
+    solution.reserve(std::sqrt(rows ^ 2 + columns ^ 2));
     std::priority_queue<Node *, std::vector<Node *>, comparator> frontier;
     int start_index = rows * sX + sY;
     int goal_index = rows * dX + dY;
@@ -47,7 +53,7 @@ std::vector<Node *> Dijkstra::findPath(int sX, int sY, int dX, int dY)
             auto n = currNode;
             while (true)
             {
-                solution.push_back(n);
+                solution.push_back(std::move(n));
                 n = n->getParent();
                 if (n == nullptr)
                 {
@@ -65,7 +71,8 @@ std::vector<Node *> Dijkstra::findPath(int sX, int sY, int dX, int dY)
             {
                 int index = j + columns * i;
                 char distance = std::abs(nodes[index].getX() - i) + std::abs(nodes[index].getY() - j);
-                int w = currNode->getCost() + nodes[index].getW() + distance;
+                // TODO: Add the slider value
+                int w = currNode->getCost() + nodes[index].getW() + distance + heuristic(currNode, &nodes[goal_index]);
 #ifdef DEBUG
                 // std::cout << "i is: " << i << " j is: " << j << " index is: " << index << std::endl;
                 // std::cout << "i is: " << index / rows << " j is: " << (index / rows) % columns << " index is: " << index << std::endl;
@@ -105,9 +112,8 @@ std::vector<Node *> Dijkstra::findPath(int sX, int sY, int dX, int dY)
     }
     return solution;
 }
-void Dijkstra::resetMap()
+void Astar::resetMap()
 {
-    std::cout << "size is " << nodes.size() << std::endl;
     for (auto &n : nodes)
     {
         n.setCost(0);
