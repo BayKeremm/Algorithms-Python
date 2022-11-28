@@ -99,6 +99,7 @@ std::vector<Node *> Dijkstra::findPath(int sX, int sY, int dX, int dY)
 #endif
                     nodes[index].setCost(w);
                     nodes[index].setParent(currNode);
+                    frontier.push(&nodes[index]);
                 }
             }
         }

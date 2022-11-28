@@ -73,33 +73,46 @@ int main(int argc, char **argv)
         {
             n->setValue(200);
         }
+        if (n->getXPos() == 4  && n->getYPos() == 4)
+        {
+            n->setValue(200);
+        }
     }
 
     for (auto &t : map)
     // TODO: move semantics, the following code copies twice the tiles
     {
-        nodes.push_back(std::move(*new Node(t->getXPos(), t->getYPos(), t->getValue(), nullptr)));
+        nodes.emplace_back(t->getXPos(),t->getYPos(),t->getValue(),nullptr);
+        //nodes.push_back(std::move(Node(t->getXPos(), t->getYPos(), t->getValue(), nullptr)));
     }
 
-    current_time = time(NULL);
-    std::cout << current_time << std::endl;
+    //current_time = time(NULL);
+    //std::cout << current_time << std::endl;
+    //current_time = time(NULL);
+    //std::cout << current_time << std::endl;
 
-    // TODO: Move semantics
-    Astar *d = new Astar(nodes, rows, cols);
-    std::vector<Node *> sol = d->findPath(0, 0, 9, 9);
-    current_time = time(NULL);
-    std::cout << current_time << std::endl;
+    Astar *a = new Astar(nodes, rows, cols);
+    std::vector<Node *> sol = a->findPath(0, 0, 9, 9);
 
-    std::cout << "---------------solution-----------------" << '\n';
+    std::cout << "---------------solution A*-----------------" << '\n';
     printMap(sol, rows, cols);
-    d->resetMap();
-    int size = 0;
-    for (auto &n : sol)
-    {
-        size++;
-        std::cout << n->getX() << "," << n->getY() << "," << n->getW() << "," << n->getCost() << '\n';
-    }
-    printf("%d\n is the size of sol", size);
+
+    a->resetMap();
+
+    Dijkstra *d = new Dijkstra(nodes, rows, cols);
+    std::vector<Node *> sol2 = d->findPath(0, 0, 9, 9);
+
+    std::cout << "---------------solution Dijkstra-----------------" << '\n';
+    printMap(sol2, rows, cols);
+
+
+    //int size = 0;
+    //for (auto &n : sol)
+    //{
+        //size++;
+        //std::cout << n->getX() << "," << n->getY() << "," << n->getW() << "," << n->getCost() << '\n';
+    //}
+    //printf("%d\n is the size of sol", size);
 
     return 0;
 }

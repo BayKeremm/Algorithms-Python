@@ -13,6 +13,7 @@ public:
     void resetMap();
 
 private:
+    // put the big element first go from big to small values to avoid padding.
     std::vector<Node> &nodes;
     int rows;
     int columns;

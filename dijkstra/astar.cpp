@@ -106,6 +106,8 @@ std::vector<Node *> Astar::findPath(int sX, int sY, int dX, int dY)
 #endif
                     nodes[index].setCost(w);
                     nodes[index].setParent(currNode);
+                    frontier.push(&nodes[index]);
+                    // RECALL THE MAKE HEAP TO RESHUFFLE
                 }
             }
         }
