@@ -9,6 +9,9 @@ public:
     // Node(std::unique_ptr<Tile> &t);
     Node(int x, int y, float w);
     Node(int x, int y, float w, Node *parent);
+    ~Node() = default;
+    Node(const Node & other);
+    Node(Node && other) noexcept;
     // Node(std::unique_ptr<Tile> &t, Node *parent);
     int getX() const;
     int getY() const;
@@ -23,10 +26,9 @@ public:
     bool getDone();
 
 private:
+    float w;
     int cost{0};
     int x, y;
-    float w;
-    // std::unique_ptr<Tile> &ptr;
     Node *parent;
     bool visited;
     bool done;

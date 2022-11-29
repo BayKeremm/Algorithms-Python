@@ -51,8 +51,8 @@ void printMap(std::vector<Node *> sol, int rows, int columns)
 }
 int main(int argc, char **argv)
 {
-    int rows = 10;
-    int cols = 10;
+    int rows = 3000;
+    int cols = 2000;
     time_t current_time;
 
     std::vector<std::unique_ptr<Tile>> map = createTileMaze(rows, cols);
@@ -77,13 +77,18 @@ int main(int argc, char **argv)
         {
             n->setValue(200);
         }
+        if (n->getXPos() ==   n->getYPos() )
+        {
+            n->setValue(20000);
+        }
     }
 
     for (auto &t : map)
     // TODO: move semantics, the following code copies twice the tiles
     {
         nodes.emplace_back(t->getXPos(),t->getYPos(),t->getValue(),nullptr);
-        //nodes.push_back(std::move(Node(t->getXPos(), t->getYPos(), t->getValue(), nullptr)));
+        //nodes.push_back(Node(t->getXPos(), t->getYPos(), t->getValue(), nullptr));
+            // when you uncomment the upper version it calls the move constuctor every time.
     }
 
     //current_time = time(NULL);
@@ -91,11 +96,14 @@ int main(int argc, char **argv)
     //current_time = time(NULL);
     //std::cout << current_time << std::endl;
 
-    Astar *a = new Astar(nodes, rows, cols);
-    std::vector<Node *> sol = a->findPath(0, 0, 9, 9);
-
     std::cout << "---------------solution A*-----------------" << '\n';
-    printMap(sol, rows, cols);
+    Astar *a = new Astar(nodes, rows, cols);
+    current_time = time(NULL);
+    std::cout << current_time << std::endl;
+    std::vector<Node *> sol = a->findPath(0, 0, 2999, 1999);
+    current_time = time(NULL);
+    std::cout << current_time << std::endl;
+    //printMap(sol, rows, cols);
 
     //a->resetMap();
 

@@ -11,6 +11,23 @@ Node::Node(int x, int y, float w) : x{x}, y{y}, w{w}
 Node::Node(int x, int y, float w, Node *ptr) : x{x}, y{y}, w{w}, parent{ptr}
 {
 }
+Node::Node(const Node & other):
+ x{other.x}, y{other.y}, w{other.w}, parent{other.parent},
+ visited{other.visited}, done{other.done}, cost{other.cost}
+{ 
+    std::cout << "Copy constructor is called" << std::endl;
+}
+Node::Node(Node && other) noexcept
+{
+    std::cout << "Move constructor is called" << std::endl;
+    x = other.x;
+    y = other.y;
+    w = other.w;
+    parent = other.parent;
+    visited = other.visited;
+    done = other.done;
+    cost = other.cost;
+}
 int Node::getX() const
 {
     return x;
