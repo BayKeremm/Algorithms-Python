@@ -97,13 +97,13 @@ int main(int argc, char **argv)
     std::cout << "---------------solution A*-----------------" << '\n';
     printMap(sol, rows, cols);
 
-    a->resetMap();
+    //a->resetMap();
 
-    Dijkstra *d = new Dijkstra(nodes, rows, cols);
-    std::vector<Node *> sol2 = d->findPath(0, 0, 9, 9);
+    //Dijkstra *d = new Dijkstra(nodes, rows, cols);
+    //std::vector<Node *> sol2 = d->findPath(0, 0, 9, 9);
 
-    std::cout << "---------------solution Dijkstra-----------------" << '\n';
-    printMap(sol2, rows, cols);
+    //std::cout << "---------------solution Dijkstra-----------------" << '\n';
+    //printMap(sol2, rows, cols);
 
 
     //int size = 0;

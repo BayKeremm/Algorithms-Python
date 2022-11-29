@@ -21,10 +21,10 @@ Astar::~Astar()
     }
 }
 
-constexpr inline float heuristic(const Node *const curr, const Node *const goal)
+constexpr inline float heuristic2(int cX, int cY, int gX, int gY)
 {
-    return std::abs(goal->getX() - curr->getX()) +
-           std::abs(goal->getY() - curr->getY());
+    return std::abs(gX - cX) +
+           std::abs(gY - cY);
 }
 std::vector<Node *> Astar::findPath(int sX, int sY, int dX, int dY)
 {
@@ -65,14 +65,18 @@ std::vector<Node *> Astar::findPath(int sX, int sY, int dX, int dY)
         // for each successor
         int curr_x = currNode->getX();
         int curr_y = currNode->getY();
+        int goalX = nodes[goal_index].getX();
+        int goalY = nodes[goal_index].getY();
         for (int i = std::max(curr_x - 1, 0); i <= std::min(curr_x + 1, rows - 1); i++)
         {
             for (int j = std::max(curr_y - 1, 0); j <= std::min(curr_y + 1, columns - 1); j++)
             {
+                bool add = false;
                 int index = j + columns * i;
                 char distance = std::abs(nodes[index].getX() - i) + std::abs(nodes[index].getY() - j);
                 // TODO: Add the slider value
-                int w = currNode->getCost() + nodes[index].getW() + distance + heuristic(currNode, &nodes[goal_index]);
+                int w = currNode->getCost() + nodes[index].getW() + distance + heuristic2(currNode->getX(), 
+                currNode->getX(), goalX, goalY);
 #ifdef DEBUG
                 // std::cout << "i is: " << i << " j is: " << j << " index is: " << index << std::endl;
                 // std::cout << "i is: " << index / rows << " j is: " << (index / rows) % columns << " index is: " << index << std::endl;
@@ -97,7 +101,7 @@ std::vector<Node *> Astar::findPath(int sX, int sY, int dX, int dY)
                     nodes[index].setVisited(true);
                     nodes[index].setCost(w);
                     nodes[index].setParent(currNode);
-                    frontier.push(&nodes[index]);
+                    add = true;
                 }
                 else if (w < nodes[index].getCost())
                 {
@@ -106,8 +110,10 @@ std::vector<Node *> Astar::findPath(int sX, int sY, int dX, int dY)
 #endif
                     nodes[index].setCost(w);
                     nodes[index].setParent(currNode);
+                    add = true;
+                }
+                if(add){
                     frontier.push(&nodes[index]);
-                    // RECALL THE MAKE HEAP TO RESHUFFLE
                 }
             }
         }
