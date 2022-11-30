@@ -101,11 +101,11 @@ int main(int argc, char **argv)
     current_time = time(NULL);
     std::cout << current_time << std::endl;
     std::vector<Node *> sol = a->findPath(0, 0, 2999, 1999);
+    a->resetMap();
     current_time = time(NULL);
     std::cout << current_time << std::endl;
     //printMap(sol, rows, cols);
 
-    //a->resetMap();
 
     //Dijkstra *d = new Dijkstra(nodes, rows, cols);
     //std::vector<Node *> sol2 = d->findPath(0, 0, 9, 9);

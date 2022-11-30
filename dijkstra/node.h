@@ -3,16 +3,16 @@
 #include <iostream>
 #include "tile.h"
 
+/// @brief Node class to keep track of the tiles and extra fields for the path planner
 class Node
 {
 public:
-    // Node(std::unique_ptr<Tile> &t);
     Node(int x, int y, float w);
     Node(int x, int y, float w, Node *parent);
     ~Node() = default;
     Node(const Node & other);
     Node(Node && other) noexcept;
-    // Node(std::unique_ptr<Tile> &t, Node *parent);
+
     int getX() const;
     int getY() const;
     int getW() const;
@@ -26,11 +26,11 @@ public:
     bool getDone();
 
 private:
-    float w;
-    int cost{0};
-    int x, y;
-    Node *parent;
-    bool visited;
-    bool done;
+    float w; // pixel weight, copied from the tiles
+    int cost{0}; // calculated cost to travel to the given node from the source node
+    int x, y; // x and y coordinates in the image
+    Node *parent; // for the associated cost the parent node to back track the cost, each node has a parent exxcept the start node which has a nullptr as parent
+    bool visited; // if the node is visited, it means through some other node we have checked the cost of to travel through it.
+    bool done; // done means the node entered the priority queue, all of its neighbors are checked and popped from the pq
 };
 #endif
