@@ -74,13 +74,17 @@ std::vector<Node *> Astar::findPath(int sX, int sY, int dX, int dY)
         auto currNode = frontier.top();
         frontier.pop();
         currNode->setDone2(2);
+        int curr_x = currNode->getX();
+        int curr_y = currNode->getY();
+        int curr_cost = currNode->getCost();
 #ifdef DEBUG
         PRINT("inside frontier loop with the following currNode");
         std::cout << currNode->getX() << "," << currNode->getY() << "," << currNode->getW() << ", " << currNode->getCost() << '\n';
 #endif
 
-        if (currNode->getX() == dX && currNode->getY() == dY)
+        if (curr_x == dX && curr_y == dY)
         {
+            std::cout << "solution" << std::endl;
             auto n = currNode;
             while (true)
             {
@@ -94,10 +98,6 @@ std::vector<Node *> Astar::findPath(int sX, int sY, int dX, int dY)
             return solution;
         }
         // for each successor
-        int curr_x = currNode->getX();
-        int curr_y = currNode->getY();
-        int goalX = nodes[goal_index].getX();
-        int goalY = nodes[goal_index].getY();
         for (int i = std::max(curr_x - 1, 0); i <= std::min(curr_x + 1, rows - 1); i++)
         {
             for (int j = std::max(curr_y - 1, 0); j <= std::min(curr_y + 1, columns - 1); j++)
@@ -106,11 +106,8 @@ std::vector<Node *> Astar::findPath(int sX, int sY, int dX, int dY)
                 int index = j + columns * i;
                 char distance = std::abs(nodes[index].getX() - i) + std::abs(nodes[index].getY() - j);
                 // TODO: Add the slider value
-                int cost = currNode->getCost() + nodes[index].getW() + distance + heuristic2(currNode->getX(), 
-                currNode->getX(), goalX, goalY);
+                int cost = curr_cost + nodes[index].getW() + distance + heuristic2(curr_x, curr_y, dX, dY);
 #ifdef DEBUG
-                // std::cout << "i is: " << i << " j is: " << j << " index is: " << index << std::endl;
-                // std::cout << "i is: " << index / rows << " j is: " << (index / rows) % columns << " index is: " << index << std::endl;
                 PRINT("inside successor loop with following successor");
                 std::cout << nodes[index].getX() << "," << nodes[index].getY() << "," << nodes[index].getW() << ", " << nodes[index].getW() << '\n';
                 std::cout << "calculated weight; ";
@@ -118,7 +115,7 @@ std::vector<Node *> Astar::findPath(int sX, int sY, int dX, int dY)
 #endif
 
                 // flag == 2
-                if (nodes[index].getDone2() == 2)
+                if (nodes[index].getDone2())
                 {
 #ifdef DEBUG
                     PRINT("node is done continue");
@@ -126,7 +123,7 @@ std::vector<Node *> Astar::findPath(int sX, int sY, int dX, int dY)
                     continue;
                 }
                 // flag = 0 
-                else if (nodes[index].getVisited2() == 0 )
+                else if (!nodes[index].getVisited2())
                 {
 #ifdef DEBUG
                     PRINT("adding to frontier");
@@ -159,7 +156,6 @@ void Astar::resetMap()
 {
     for (auto &n : nodes)
     {
-        n.setCost(0);
-        n.setDone2(0);
+        n.reset();
     }
 }

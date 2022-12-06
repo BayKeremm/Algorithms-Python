@@ -1,19 +1,17 @@
 #include "node.hpp"
-Node::Node(int x, int y, float w) : x{x}, y{y}, w{w}, cost{0}, flag{0}
+Node::Node(int x, int y, float w, Node *ptr) : 
+w{w}, cost{0}, x{x}, y{y},parent{ptr},
+ flag{0}
 {
 }
-Node::Node(int x, int y, float w, Node *ptr) : x{x}, y{y}, w{w}, parent{ptr}, cost{0},flag{0}
-{
-}
-Node::Node(const Node & other):
- x{other.x}, y{other.y}, w{other.w}, parent{other.parent},
- flag{other.flag}, cost{other.cost}
+Node::Node( const Node & other): w{other.w}, cost{other.cost}, x{other.x}, y{other.y},parent{other.parent},
+ flag{other.flag}
 { 
-    std::cout << "Copy constructor is called" << std::endl;
+    std::cout << "Copy ructor is called" << std::endl;
 }
 Node::Node(Node && other) noexcept
 {
-    std::cout << "Move constructor is called" << std::endl;
+    std::cout << "Move ructor is called" << std::endl;
     x = other.x;
     y = other.y;
     w = other.w;
@@ -21,15 +19,15 @@ Node::Node(Node && other) noexcept
     flag = other.flag;
     cost = other.cost;
 }
-int Node::getX() const
+int Node::getX() 
 {
     return x;
 }
-int Node::getY() const
+int Node::getY() 
 {
     return y;
 }
-int Node::getW() const
+int Node::getW() 
 {
     return w;
 }
@@ -46,33 +44,15 @@ void Node::setParent(Node *ptr)
 {
     parent = ptr;
 }
-Node *Node::getParent()
+Node *Node::getParent() 
 {
     return parent;
 }
-//void Node::setVisited(bool val)
-//{
-    //visited = val;
-//}
-//bool Node::getVisited()
-//{
-    //return visited;
-//}
-
-//void Node::setDone(bool val)
-//{
-    //done = val;
-//}
-//bool Node::getDone()
-//{
-    //return done;
-//}
-
 void Node::setVisited2(char f)
 {
     flag = f;
 }
-char Node::getVisited2()
+char Node::getVisited2() 
 {
     return flag;
 }
@@ -81,7 +61,13 @@ void Node::setDone2(char f)
 {
     flag = f;
 }
-char Node::getDone2()
+char Node::getDone2() 
 {
     return flag;
+}
+
+void Node::reset()
+{
+    flag = 0 ;
+    cost = 0;
 }

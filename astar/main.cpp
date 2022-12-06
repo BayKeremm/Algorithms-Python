@@ -2,7 +2,6 @@
 #include <vector>
 #include <memory>
 #include "node.hpp"
-#include "dijkstra.hpp"
 #include "astar.hpp"
 #include "tile.hpp"
 
@@ -11,6 +10,9 @@ TODO:
 -add the cost and do not change anything related to the tile
 at the end refresh the data structure and avoid copying.
 - Try the Node class which extends the tile class. Compare time
+
+
+- check if you have enough memory by checking if nullptr is returned
 */
 
 std::vector<std::unique_ptr<Tile>> createTileMaze(int rows, int cols)
@@ -52,6 +54,7 @@ void printMap(std::vector<Node *> sol, int rows, int columns)
 int main(int argc, char **argv)
 {
     int rows = 3000;
+
     int cols = 2000;
     time_t current_time;
 
@@ -87,38 +90,19 @@ int main(int argc, char **argv)
     {
         nodes.emplace_back(t->getXPos(),t->getYPos(),t->getValue(),nullptr);
     }
-
-    //current_time = time(NULL);
-    //std::cout << current_time << std::endl;
-    //current_time = time(NULL);
-    //std::cout << current_time << std::endl;
-
     std::cout << "---------------solution A*-----------------" << '\n';
     Astar *a = new Astar(nodes, rows, cols);
     std::clock_t c_start = std::clock();
     std::vector<Node *> sol = a->findPath(0, 0, 2999, 1999);
+    std::cout << "after path" << '\n';
     a->resetMap();
+    std::cout << "after reset" << '\n';
     std::clock_t c_end = std::clock();
     long time_elapsed_ms = 1000.0 * (c_end-c_start) / CLOCKS_PER_SEC;
     std::cout << "CPU time used: " << time_elapsed_ms << " ms\n";
     std::cout << sol.size() << std::endl;
     //printMap(sol, rows, cols);
 
-
-    //Dijkstra *d = new Dijkstra(nodes, rows, cols);
-    //std::vector<Node *> sol2 = d->findPath(0, 0, 9, 9);
-
-    //std::cout << "---------------solution Dijkstra-----------------" << '\n';
-    //printMap(sol2, rows, cols);
-
-
-    //int size = 0;
-    //for (auto &n : sol)
-    //{
-        //size++;
-        //std::cout << n->getX() << "," << n->getY() << "," << n->getW() << "," << n->getCost() << '\n';
-    //}
-    //printf("%d\n is the size of sol", size);
 
     return 0;
 }
