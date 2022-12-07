@@ -53,9 +53,9 @@ void printMap(std::vector<Node *> sol, int rows, int columns)
 }
 int main(int argc, char **argv)
 {
-    int rows = 3000;
+    int rows = 30;
 
-    int cols = 2000;
+    int cols = 30;
     time_t current_time;
 
     std::vector<std::unique_ptr<Tile>> map = createTileMaze(rows, cols);
@@ -64,25 +64,34 @@ int main(int argc, char **argv)
 
     for (auto &n : map)
     {
-        if (n->getXPos() == 5 && n->getYPos() == 5)
+        //if (n->getXPos() == 5 && n->getYPos() == 5)
+        //{
+            //n->setValue(200);
+        //}
+        //if (n->getXPos() == 4 && n->getYPos() == 5)
+        //{
+            //n->setValue(200);
+        //}
+        //if (n->getXPos() == 5 && n->getYPos() == 4)
+        //{
+            //n->setValue(200);
+        //}
+        //if (n->getXPos() == 4  && n->getYPos() == 4)
+        //{
+            //n->setValue(200);
+        //}
+        //if (n->getXPos() ==   n->getYPos() )
+        //{
+            //n->setValue(1000);
+        //}
+        if (n->getYPos() == 9 )
         {
-            n->setValue(200);
-        }
-        if (n->getXPos() == 4 && n->getYPos() == 5)
-        {
-            n->setValue(200);
-        }
-        if (n->getXPos() == 5 && n->getYPos() == 4)
-        {
-            n->setValue(200);
-        }
-        if (n->getXPos() == 4  && n->getYPos() == 4)
-        {
-            n->setValue(200);
-        }
-        if (n->getXPos() ==   n->getYPos() )
-        {
-            n->setValue(20000);
+            if(n->getXPos() == 0){
+
+            }else{
+                n->setValue(2000000);
+            }
+
         }
     }
 
@@ -93,7 +102,7 @@ int main(int argc, char **argv)
     std::cout << "---------------solution A*-----------------" << '\n';
     Astar *a = new Astar(nodes, rows, cols);
     std::clock_t c_start = std::clock();
-    std::vector<Node *> sol = a->findPath(0, 0, 2999, 1999);
+    std::vector<Node *> sol = a->findPath(0, 0, 29, 29);
     std::cout << "after path" << '\n';
     a->resetMap();
     std::cout << "after reset" << '\n';
@@ -101,7 +110,7 @@ int main(int argc, char **argv)
     long time_elapsed_ms = 1000.0 * (c_end-c_start) / CLOCKS_PER_SEC;
     std::cout << "CPU time used: " << time_elapsed_ms << " ms\n";
     std::cout << sol.size() << std::endl;
-    //printMap(sol, rows, cols);
+    printMap(sol, rows, cols);
 
 
     return 0;

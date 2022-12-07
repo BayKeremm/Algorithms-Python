@@ -25,8 +25,18 @@ Astar::~Astar()
         delete &n;
     }
 }
+/// @brief Euclidian distance
+/// @param cX 
+/// @param cY 
+/// @param gX 
+/// @param gY 
+/// @return 
+constexpr inline float heuristic1(int cX, int cY, int gX, int gY)
+{
+    return std::sqrt((cX - gX)*(cX-gX)+(cY-gY)*(cY-gY));
+}
 
-/// @brief constant expression to calculate herustic 
+/// @brief constant expression to calculate herustic Manhattan distance 
 /// @param cX current X 
 /// @param cY current Y 
 /// @param gX goal X
@@ -36,6 +46,12 @@ constexpr inline float heuristic2(int cX, int cY, int gX, int gY)
 {
     return std::abs(gX - cX) +
            std::abs(gY - cY);
+}
+constexpr inline float heuristic3(int cX, int cY, int gX, int gY)
+{
+    int dx = std::abs(gX - cX);
+    int dy = std::abs(gY - cY);
+    return (dx+dy + (0.414) * std::min(dx,dy));
 }
 
 /// @brief 
@@ -104,9 +120,12 @@ std::vector<Node *> Astar::findPath(int sX, int sY, int dX, int dY)
             {
                 bool add = false;
                 int index = j + columns * i;
-                char distance = std::abs(nodes[index].getX() - i) + std::abs(nodes[index].getY() - j);
+                int succ_x = nodes[index].getX(); 
+                int succ_y = nodes[index].getY(); 
+                int succ_w = nodes[index].getW(); 
+                char distance = std::abs(succ_x - i) + std::abs(succ_x - j);
                 // TODO: Add the slider value
-                int cost = curr_cost + nodes[index].getW() + distance + heuristic2(curr_x, curr_y, dX, dY);
+                int cost = curr_cost + succ_w + distance + heuristic1(curr_x, curr_y, dX, dY);
 #ifdef DEBUG
                 PRINT("inside successor loop with following successor");
                 std::cout << nodes[index].getX() << "," << nodes[index].getY() << "," << nodes[index].getW() << ", " << nodes[index].getW() << '\n';
