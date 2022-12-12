@@ -51,18 +51,18 @@ constexpr inline float ChebyshevDistance(int sx, int sy, int gx, int gy)
 std::vector<Node *> Astar::findPath(int sX, int sY, int dX, int dY,float pw, float hw)
 {
 
-    std::priority_queue<Node*, std::vector<Node*>, std::function<bool(const Node* const, const Node* const)>> frontier;
+    std::priority_queue<Node*, std::vector<Node*>, comparator> frontier;
 
     //auto compare = [=] (const Node* const left, const Node* const right)
     //{
         //return (calculateCost(left,pw,hw,dX,dY)) > (calculateCost(right,pw,hw,dX,dY));
     //};
-    auto compare2 = [=] (const Node* const left, const Node* const right)
-    {
-        return left->getCost() > right->getCost();
-    };
+    //auto compare2 = [=] (const Node* const left, const Node* const right)
+    //{
+        //return left->getCost() > right->getCost();
+    //};
 
-    frontier = std::priority_queue<Node*, std::vector<Node*>, std::function<bool(const Node* const, const Node* const)>>(compare2);
+    //frontier = std::priority_queue<Node*, std::vector<Node*>, std::function<bool(const Node* const, const Node* const)>>(compare2);
 
     std::vector<Node *> solution;
 
