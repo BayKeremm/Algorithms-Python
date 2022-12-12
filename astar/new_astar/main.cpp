@@ -18,9 +18,9 @@ at the end refresh the data structure and avoid copying.
 std::vector<std::unique_ptr<Tile>> createTileMaze(int rows, int cols)
 {
     std::vector<std::unique_ptr<Tile>> map;
-    for (int i = 0; i < rows; i++)
+    for (int i = 0; i < cols; i++)
     {
-        for (int j = 0; j < cols; j++)
+        for (int j = 0; j < rows; j++)
         {
             map.push_back(std::make_unique<Tile>(j, i, 1));
         }
@@ -62,9 +62,9 @@ std::vector<Node> create(std::vector<std::unique_ptr<Tile>> &map){
 }
 int main(int argc, char **argv)
 {
-    int rows = 3000;
+    int rows = 29;
 
-    int cols = 3000;
+    int cols = 29;
     time_t current_time;
 
     std::vector<std::unique_ptr<Tile>> map = createTileMaze(rows, cols);
@@ -73,41 +73,41 @@ int main(int argc, char **argv)
 
     for (auto &n : map)
     {
-        if (n->getXPos() == 5 && n->getYPos() == 5)
-        {
-            n->setValue(200);
-        }
-        if (n->getXPos() == 4 && n->getYPos() == 5)
-        {
-            n->setValue(200);
-        }
-        if (n->getXPos() == 5 && n->getYPos() == 4)
-        {
-            n->setValue(200);
-        }
-        if (n->getXPos() == 4  && n->getYPos() == 4)
-        {
-            n->setValue(200);
-        }
-        if (n->getXPos() ==   n->getYPos() )
-        {
-            n->setValue(1000);
-        }
-        if (n->getYPos() == 9 )
-        {
-            if(n->getXPos() == 0){
+        //if (n->getXPos() == 5 && n->getYPos() == 5)
+        //{
+            //n->setValue(200);
+        //}
+        //if (n->getXPos() == 4 && n->getYPos() == 5)
+        //{
+            //n->setValue(200);
+        //}
+        //if (n->getXPos() == 5 && n->getYPos() == 4)
+        //{
+            //n->setValue(200);
+        //}
+        //if (n->getXPos() == 4  && n->getYPos() == 4)
+        //{
+            //n->setValue(200);
+        //}
+        //if (n->getXPos() ==   n->getYPos() )
+        //{
+            //n->setValue(1000);
+        //}
+        //if (n->getYPos() == 9 )
+        //{
+            //if(n->getXPos() == 0){
 
-            }else{
-                n->setValue(2000000);
-            }
+            //}else{
+                //n->setValue(2000000);
+            //}
 
-        }
+        //}
     }
     nodes = create(map);
     std::cout << "---------------solution A*-----------------" << '\n';
     Astar *a = new Astar(nodes, rows, cols);
     std::clock_t c_start = std::clock();
-    std::vector<Node *> sol = a->findPath(0, 0, 2999, 2999,0,0);
+    std::vector<Node *> sol = a->findPath(0, 0, 15, 10);
     std::cout << "after path" << '\n';
     a->resetMap();
     std::cout << "after reset" << '\n';
@@ -115,7 +115,7 @@ int main(int argc, char **argv)
     long time_elapsed_ms = 1000.0 * (c_end-c_start) / CLOCKS_PER_SEC;
     std::cout << "CPU time used: " << time_elapsed_ms << " ms\n";
     std::cout << sol.size() << std::endl;
-    //printMap(sol, rows, cols);
+    printMap(sol, rows, cols);
 
 
     return 0;

@@ -1,42 +1,4 @@
-1669106053
-1669106053
----------------solution-----------------
-* * - 
-- - * 
-- - * 
-2,2,200,0
-1,2,1,0
-0,1,1,0
-0,0,200,0
-4
- is the size of sol
-1669106315
-1669106315
----------------solution-----------------
-* - - - - - - - - - 
-- * - - - - - - - - 
-- - * - - - - - - - 
-- - - * - * - - - - 
-- - - - * - * - - - 
-- - - - - - - * - - 
-- - - - - - - - * - 
-- - - - - - - - - * 
-- - - - - - - - - * 
-- - - - - - - - - * 
-9,9,1,0
-8,9,1,0
-7,9,1,0
-6,8,1,0
-5,7,1,0
-4,6,1,0
-3,5,1,0
-4,4,1,0
-3,3,1,0
-2,2,1,0
-1,1,1,0
-0,0,1,0
-12
- is the size of sol---------------solution A*-----------------
+---------------solution A*-----------------
 before the while loop
 inside frontier loop with the following currNode
 0,0,1, 0
@@ -45,11 +7,11 @@ inside successor loop with following successor
 calculated weight; 5
 node is done continue
 inside successor loop with following successor
-1,0,1, 1
+0,1,1, 1
 calculated weight; 6
 adding to frontier
-inside successor loop with following successor
-0,1,1, 1
+inside successor loop with following successo r
+1,0,1, 1
 calculated weight; 6
 adding to frontier
 inside successor loop with following successor
@@ -63,15 +25,15 @@ inside successor loop with following successor
 calculated weight; 9
 node is done continue
 inside successor loop with following successor
-1,0,1, 1
+0,1,1, 1
 calculated weight; 10
 node is done continue
 inside successor loop with following successor
-2,0,1, 1
+0,2,1, 1
 calculated weight; 11
 adding to frontier
 inside successor loop with following successor
-0,1,1, 1
+1,0,1, 1
 calculated weight; 10
 node is done continue
 inside successor loop with following successor
@@ -79,15 +41,15 @@ inside successor loop with following successor
 calculated weight; 9
 node is done continue
 inside successor loop with following successor
-2,1,1, 1
+1,2,1, 1
 calculated weight; 10
 adding to frontier
 inside successor loop with following successor
-0,2,1, 1
+2,0,1, 1
 calculated weight; 11
 adding to frontier
 inside successor loop with following successor
-1,2,1, 1
+2,1,1, 1
 calculated weight; 10
 adding to frontier
 inside successor loop with following successor
@@ -95,43 +57,17 @@ inside successor loop with following successor
 calculated weight; 9
 adding to frontier
 inside frontier loop with the following currNode
-0,1,1, 6
-inside successor loop with following successor
-0,0,1, 1
-calculated weight; 11
-node is done continue
-inside successor loop with following successor
-1,0,1, 1
-calculated weight; 12
-node is done continue
-inside successor loop with following successor
-2,0,1, 1
-calculated weight; 13
-node is done continue
-inside successor loop with following successor
-0,1,1, 1
-calculated weight; 12
-node is done continue
-inside successor loop with following successor
-1,1,1, 1
-calculated weight; 11
-node is done continue
-inside successor loop with following successor
-2,1,1, 1
-calculated weight; 12
-node is done continue
-inside frontier loop with the following currNode
 1,0,1, 6
 inside successor loop with following successor
 0,0,1, 1
 calculated weight; 10
 node is done continue
 inside successor loop with following successor
-1,0,1, 1
+0,1,1, 1
 calculated weight; 11
 node is done continue
 inside successor loop with following successor
-0,1,1, 1
+1,0,1, 1
 calculated weight; 11
 node is done continue
 inside successor loop with following successor
@@ -139,12 +75,38 @@ inside successor loop with following successor
 calculated weight; 10
 node is done continue
 inside successor loop with following successor
-0,2,1, 1
+2,0,1, 1
 calculated weight; 12
 node is done continue
 inside successor loop with following successor
-1,2,1, 1
+2,1,1, 1
 calculated weight; 11
+node is done continue
+inside frontier loop with the following currNode
+0,1,1, 6
+inside successor loop with following successor
+0,0,1, 1
+calculated weight; 11
+node is done continue
+inside successor loop with following successor
+0,1,1, 1
+calculated weight; 12
+node is done continue
+inside successor loop with following successor
+0,2,1, 1
+calculated weight; 13
+node is done continue
+inside successor loop with following successor
+1,0,1, 1
+calculated weight; 12
+node is done continue
+inside successor loop with following successor
+1,1,1, 1
+calculated weight; 11
+node is done continue
+inside successor loop with following successor
+1,2,1, 1
+calculated weight; 12
 node is done continue
 inside frontier loop with the following currNode
 2,2,1, 9
@@ -153,11 +115,11 @@ inside successor loop with following successor
 calculated weight; 12
 node is done continue
 inside successor loop with following successor
-2,1,1, 1
+1,2,1, 1
 calculated weight; 13
 node is done continue
 inside successor loop with following successor
-1,2,1, 1
+2,1,1, 1
 calculated weight; 13
 node is done continue
 inside successor loop with following successor
@@ -165,17 +127,43 @@ inside successor loop with following successor
 calculated weight; 12
 node is done continue
 inside successor loop with following successor
-0,0,0, 0
-calculated weight; 15
+3,1,1, 1
+calculated weight; 14
 adding to frontier
 inside successor loop with following successor
-0,0,0, 0
-calculated weight; 16
+3,2,1, 1
+calculated weight; 13
 adding to frontier
+inside frontier loop with the following currNode
+1,2,1, 10
+inside successor loop with following successor
+0,1,1, 1
+calculated weight; 15
+node is done continue
+inside successor loop with following successor
+0,2,1, 1
+calculated weight; 16
+node is done continue
+inside successor loop with following successor
+1,1,1, 1
+calculated weight; 14
+node is done continue
+inside successor loop with following successor
+1,2,1, 1
+calculated weight; 15
+node is done continue
+inside successor loop with following successor
+2,1,1, 1
+calculated weight; 15
+node is done continue
+inside successor loop with following successor
+2,2,1, 1
+calculated weight; 14
+node is done continue
 inside frontier loop with the following currNode
 2,1,1, 10
 inside successor loop with following successor
-0,1,1, 1
+1,0,1, 1
 calculated weight; 14
 node is done continue
 inside successor loop with following successor
@@ -183,15 +171,15 @@ inside successor loop with following successor
 calculated weight; 13
 node is done continue
 inside successor loop with following successor
-2,1,1, 1
+1,2,1, 1
 calculated weight; 14
 node is done continue
 inside successor loop with following successor
-0,2,1, 1
+2,0,1, 1
 calculated weight; 15
 node is done continue
 inside successor loop with following successor
-1,2,1, 1
+2,1,1, 1
 calculated weight; 14
 node is done continue
 inside successor loop with following successor
@@ -199,51 +187,51 @@ inside successor loop with following successor
 calculated weight; 13
 node is done continue
 inside successor loop with following successor
-0,0,0, 0
-calculated weight; 15
+3,0,1, 1
+calculated weight; 16
 adding to frontier
 inside successor loop with following successor
-0,0,0, 0
-calculated weight; 16
+3,1,1, 1
+calculated weight; 15
 node is done continue
 inside successor loop with following successor
-0,0,0, 0
-calculated weight; 17
+3,2,1, 1
+calculated weight; 14
 node is done continue
 inside frontier loop with the following currNode
-1,2,1, 10
+2,0,1, 11
 inside successor loop with following successor
 1,0,1, 1
 calculated weight; 15
+node is done continue
+inside successor loop with following successor
+1,1,1, 1
+calculated weight; 14
 node is done continue
 inside successor loop with following successor
 2,0,1, 1
 calculated weight; 16
 node is done continue
 inside successor loop with following successor
-1,1,1, 1
-calculated weight; 14
-node is done continue
-inside successor loop with following successor
 2,1,1, 1
 calculated weight; 15
 node is done continue
 inside successor loop with following successor
-1,2,1, 1
-calculated weight; 15
+3,0,1, 1
+calculated weight; 17
 node is done continue
 inside successor loop with following successor
-2,2,1, 1
-calculated weight; 14
+3,1,1, 1
+calculated weight; 16
 node is done continue
 inside frontier loop with the following currNode
 0,2,1, 11
 inside successor loop with following successor
-1,0,1, 1
+0,1,1, 1
 calculated weight; 17
 node is done continue
 inside successor loop with following successor
-2,0,1, 1
+0,2,1, 1
 calculated weight; 18
 node is done continue
 inside successor loop with following successor
@@ -251,95 +239,108 @@ inside successor loop with following successor
 calculated weight; 16
 node is done continue
 inside successor loop with following successor
+1,2,1, 1
+calculated weight; 17
+node is done continue
+inside frontier loop with the following currNode
+3,2,1, 13
+inside successor loop with following successor
+2,1,1, 1
+calculated weight; 16
+node is done continue
+inside successor loop with following successor
+2,2,1, 1
+calculated weight; 15
+node is done continue
+inside successor loop with following successor
+3,1,1, 1
+calculated weight; 17
+node is done continue
+inside successor loop with following successor
+3,2,1, 1
+calculated weight; 16
+node is done continue
+inside successor loop with following successor
+4,1,1, 1
+calculated weight; 18
+adding to frontier
+inside successor loop with following successor
+4,2,1, 1
+calculated weight; 17
+adding to frontier
+inside frontier loop with the following currNode
+3,1,1, 14
+inside successor loop with following successor
+2,0,1, 1
+calculated weight; 18
+node is done continue
+inside successor loop with following successor
 2,1,1, 1
 calculated weight; 17
 node is done continue
-inside frontier loop with the following currNode
-2,0,1, 11
 inside successor loop with following successor
-0,1,1, 1
-calculated weight; 15
-node is done continue
-inside successor loop with following successor
-1,1,1, 1
-calculated weight; 14
-node is done continue
-inside successor loop with following successor
-0,2,1, 1
+2,2,1, 1
 calculated weight; 16
 node is done continue
 inside successor loop with following successor
-1,2,1, 1
-calculated weight; 15
+3,0,1, 1
+calculated weight; 19
 node is done continue
 inside successor loop with following successor
-0,0,0, 0
-calculated weight; 16
+3,1,1, 1
+calculated weight; 18
 node is done continue
 inside successor loop with following successor
-0,0,0, 0
+3,2,1, 1
 calculated weight; 17
 node is done continue
-inside frontier loop with the following currNode
-0,0,0, 15
 inside successor loop with following successor
-0,0,1, 1
+4,0,1, 1
 calculated weight; 20
+adding to frontier
+inside successor loop with following successor
+4,1,1, 1
+calculated weight; 19
 node is done continue
 inside successor loop with following successor
-1,0,1, 1
-calculated weight; 21
-node is done continue
-inside successor loop with following successor
-0,1,1, 1
-calculated weight; 21
-node is done continue
-inside successor loop with following successor
-1,1,1, 1
-calculated weight; 20
+4,2,1, 1
+calculated weight; 18
 node is done continue
 inside frontier loop with the following currNode
-0,0,0, 15
+3,0,1, 16
 inside successor loop with following successor
-0,0,1, 1
+2,0,1, 1
+calculated weight; 21
+node is done continue
+inside successor loop with following successor
+2,1,1, 1
 calculated weight; 20
 node is done continue
 inside successor loop with following successor
-1,0,1, 1
-calculated weight; 21
-node is done continue
-inside successor loop with following successor
-0,1,1, 1
-calculated weight; 21
-node is done continue
-inside successor loop with following successor
-1,1,1, 1
-calculated weight; 20
-node is done continue
-inside frontier loop with the following currNode
-0,0,0, 16
-inside successor loop with following successor
-0,0,1, 1
-calculated weight; 21
-node is done continue
-inside successor loop with following successor
-1,0,1, 1
+3,0,1, 1
 calculated weight; 22
 node is done continue
 inside successor loop with following successor
-0,1,1, 1
-calculated weight; 22
-node is done continue
-inside successor loop with following successor
-1,1,1, 1
+3,1,1, 1
 calculated weight; 21
 node is done continue
+inside successor loop with following successor
+4,0,1, 1
+calculated weight; 23
+node is done continue
+inside successor loop with following successor
+4,1,1, 1
+calculated weight; 22
+node is done continue
+inside frontier loop with the following currNode
+4,2,1, 17
+solution
 after path
 after reset
 CPU time used: 2 ms
-0
-- - - 
-- - - 
-- - - 
-- - - 
-- - - 
+5
+* - - 
+- * - 
+- - * 
+- - * 
+- - * 

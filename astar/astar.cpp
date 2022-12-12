@@ -9,78 +9,66 @@
 #define PRINT(str)
 #endif
 
-/// @brief 
+/// @brief
 /// @param nds vector of nodes, created in the main and then passed to the Astar class, which will keep them
 ///             until the end of its lifetime. So only one copy is made.
-/// @param rs number of rows 
+/// @param rs number of rows
 /// @param cls  number of columns
-Astar::Astar(std::vector<Node> &nds, int rs, int cls) : nodes{nds}, rows{rs},
+Astar::Astar(std::vector<Node>nds, int rs, int cls) : nodes{nds}, rows{rs},
                                                         columns{cls}
 {
 }
-Astar::~Astar()
+constexpr inline float ChebyshevDistance(int sx, int sy, int gx, int gy)
 {
-    for (auto &n : nodes)
-    {
-        delete &n;
-    }
+    return (std::max(std::abs(gx - sx),
+                          std::abs(gy - sy)));
 }
-/// @brief Euclidian distance
-/// @param cX 
-/// @param cY 
-/// @param gX 
-/// @param gY 
-/// @return 
-constexpr inline float heuristic1(int cX, int cY, int gX, int gY)
-{
-    return std::sqrt((cX - gX)*(cX-gX)+(cY-gY)*(cY-gY));
-}
-
-/// @brief constant expression to calculate herustic Manhattan distance 
-/// @param cX current X 
-/// @param cY current Y 
-/// @param gX goal X
-/// @param gY goal Y
-/// @return 
-constexpr inline float heuristic2(int cX, int cY, int gX, int gY)
-{
-    return std::abs(gX - cX) +
-           std::abs(gY - cY);
-}
-constexpr inline float heuristic3(int cX, int cY, int gX, int gY)
-{
-    int dx = std::abs(gX - cX);
-    int dy = std::abs(gY - cY);
-    return (dx+dy + (0.414) * std::min(dx,dy));
-}
-
-/// @brief 
-///        step 1: initialize solution, priority queue (pq) 
-///        step 2: add the start node to the pq 
-///        step 2: while pq is not empty 
-///        step 3: pop the pq 
-///        step 4: set the popped to Done 
-///        check : check if we are at destination, if we are populate the solution vector 
+//float calculateCost(const Node * const node, float pathWeight, float heuristicWeight, int gx, int gy)
+//{
+   //return node->getW() + pathWeight*node->getCost() + heuristicWeight*ChebyshevDistance(node,gx,gy);
+//}
+/// @brief
+///        step 1: initialize solution, priority queue (pq)
+///        step 2: add the start node to the pq
+///        step 2: while pq is not empty
+///        step 3: pop the pq
+///        step 4: set the popped to Done
+///        check : check if we are at destination, if we are populate the solution vector
 ///        step 6: for each succesor, which are the basically the neighbors
-///        step 7: calculate the distance to the neighbor, 
+///        step 7: calculate the distance to the neighbor,
 ///        step 8: calculate the cost to travel to that neighbor
 ///        check : check ig the node is done, if it is continue with the next neighbor
 ///        check : check if the node is visited, if it is not add it to the frontier and update its fields
 ///        check : if node is visited and the calculated cost for the same node is lower,
 ///                update its fields and add it to the frontier again
-/// @param sX source X 
+/// @param sX source X
 /// @param sY source U
 /// @param dX destination X, same as goal X
 /// @param dY destination Y, same as goal Y
-/// @return 
-std::vector<Node *> Astar::findPath(int sX, int sY, int dX, int dY)
+/// @param pw path weight from the ui
+/// @param hw heuristic weight from the ui
+/// @return vector containing the solution nodes
+std::vector<Node *> Astar::findPath(int sX, int sY, int dX, int dY,float pw, float hw)
 {
-    PRINT("before the while loop");
+
+    std::priority_queue<Node*, std::vector<Node*>, std::function<bool(const Node* const, const Node* const)>> frontier;
+
+    //auto compare = [=] (const Node* const left, const Node* const right)
+    //{
+        //return (calculateCost(left,pw,hw,dX,dY)) > (calculateCost(right,pw,hw,dX,dY));
+    //};
+    auto compare2 = [=] (const Node* const left, const Node* const right)
+    {
+        return left->getCost() > right->getCost();
+    };
+
+    frontier = std::priority_queue<Node*, std::vector<Node*>, std::function<bool(const Node* const, const Node* const)>>(compare2);
+
     std::vector<Node *> solution;
+
     solution.reserve(std::sqrt(rows ^ 2 + columns ^ 2));
-    std::priority_queue<Node *, std::vector<Node *>, comparator> frontier;
-    int start_index = rows * sX + sY;
-    int goal_index = rows * dX + dY;
+
+    int start_index = columns * sY+ sX;
     nodes[start_index].setCost(0);
     nodes[start_index].setParent(nullptr);
     frontier.push(&nodes[start_index]);
@@ -89,18 +77,13 @@ std::vector<Node *> Astar::findPath(int sX, int sY, int dX, int dY)
     {
         auto currNode = frontier.top();
         frontier.pop();
-        currNode->setDone2(2);
+        currNode->setFlag(2);
         int curr_x = currNode->getX();
         int curr_y = currNode->getY();
-        int curr_cost = currNode->getCost();
-#ifdef DEBUG
-        PRINT("inside frontier loop with the following currNode");
-        std::cout << currNode->getX() << "," << currNode->getY() << "," << currNode->getW() << ", " << currNode->getCost() << '\n';
-#endif
+        float curr_cost = currNode->getCost();
 
         if (curr_x == dX && curr_y == dY)
         {
-            std::cout << "solution" << std::endl;
             auto n = currNode;
             while (true)
             {
@@ -119,51 +102,30 @@ std::vector<Node *> Astar::findPath(int sX, int sY, int dX, int dY)
             for (int j = std::max(curr_y - 1, 0); j <= std::min(curr_y + 1, columns - 1); j++)
             {
                 bool add = false;
-                int index = j + columns * i;
-                int succ_x = nodes[index].getX(); 
-                int succ_y = nodes[index].getY(); 
-                int succ_w = nodes[index].getW(); 
-                char distance = std::abs(succ_x - i) + std::abs(succ_x - j);
-                // TODO: Add the slider value
-                int cost = curr_cost + succ_w + distance + heuristic1(curr_x, curr_y, dX, dY);
-#ifdef DEBUG
-                PRINT("inside successor loop with following successor");
-                std::cout << nodes[index].getX() << "," << nodes[index].getY() << "," << nodes[index].getW() << ", " << nodes[index].getW() << '\n';
-                std::cout << "calculated weight; ";
-                PRINT(w);
-#endif
-
-                // flag == 2
-                if (nodes[index].getDone2())
-                {
-#ifdef DEBUG
-                    PRINT("node is done continue");
-#endif
+                int index = i + columns * j;
+                float succ_w = nodes[index].getW();
+                // 2 is wall
+                if(succ_w == 2){
                     continue;
                 }
-                // flag = 0 
-                else if (!nodes[index].getVisited2())
+                if (nodes[index].getFlag() == 2)
                 {
-#ifdef DEBUG
-                    PRINT("adding to frontier");
-#endif
-                    nodes[index].setVisited2(1);
-                    nodes[index].setCost(cost);
-                    nodes[index].setParent(currNode);
+                    continue;
+                }
+                float cost =  pw*curr_cost + succ_w + hw*ChebyshevDistance(i,j,dX,dY);
+                if (nodes[index].getFlag()  == 0 )
+                {
+                    nodes[index].setFlag(1);
                     add = true;
                 }
-                // flag == 1 
                 else if (cost < nodes[index].getCost())
                 {
-#ifdef DEBUG
-                    PRINT("changing the weight");
-#endif
-                    nodes[index].setCost(cost);
-                    nodes[index].setParent(currNode);
                     add = true;
                 }
                 if(add){
+                    nodes[index].setCost(cost);
                     frontier.push(&nodes[index]);
+                    nodes[index].setParent(currNode);
                 }
             }
         }
@@ -176,5 +138,6 @@ void Astar::resetMap()
     for (auto &n : nodes)
     {
         n.reset();
+
     }
 }

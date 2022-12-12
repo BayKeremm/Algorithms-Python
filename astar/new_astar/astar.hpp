@@ -6,12 +6,15 @@
 class Astar
 {
 public:
-    Astar(std::vector<Node> nds, int rs, int cls);
-    std::vector<Node *> findPath(int sX, int sY, int dX, int dY,float pw, float hw);
+    Astar(std::vector<Node> &nds, int rs, int cls){
+
+    };
+    ~Astar();
+    std::vector<Node*> findPath(int sX, int sY, int dX, int dY);
     void resetMap();
 
 private:
-    std::vector<Node>nodes;
+    std::vector<Node> nodes;
     int rows;
     int columns;
 };
